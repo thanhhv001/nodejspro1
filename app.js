@@ -2,7 +2,7 @@
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 var express = require('express');
-const ticker = require('cryptocurrency-ticker');
+
 var app = express();
 var http = require('http');
 var https = require('https');
@@ -17,32 +17,9 @@ app.use(bodyParser.json());
 
 app.use(express.static(__dirname + '/bower_components'));
 app.get('/', function (req, res, next) {
-    ticker.ticker('poloniex', 'etc_btc').then((ticker) => {
-	res.send(ticker);
-    }).catch((err) => {
-        res.send(err);
-    });
-    ticker.ticker('kraken', 'etc_btc').then((ticker) => {
-	res.send(ticker);
-    }).catch((err) => {
-        res.send(err);
-    });
+    res.send("Hello");
 });
 var port = 3000;
 server.listen(process.env.PORT || port);
 
-ticker.availableExchanges().then((exchanges) => {
-	console.log(exchanges);
-});
 
-ticker.availablePairs('kraken').then((pairs) => {
-	console.log(pairs);
-}).catch((err) => {
-	console.error(err);
-});
-
-ticker.ticker('kraken', 'eth_jpy').then((ticker) => {
-	console.log(ticker);
-}).catch((err) => {
-	console.error(err);
-});
