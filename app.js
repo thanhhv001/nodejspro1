@@ -18,10 +18,10 @@ app.use(bodyParser.json());
 app.use(express.static(__dirname + '/bower_components'));
 app.get('/', function (req, res, next) {
     ticker.ticker('poloniex', 'usdt_btc').then((ticker) => {
-	console.log(ticker);
-	}).catch((err) => {
-		console.error(err);
-	});
+	res.send(ticker);
+    }).catch((err) => {
+        res.send(err);
+    });
 });
 var port = 3000;
 server.listen(process.env.PORT || port);
