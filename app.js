@@ -10,7 +10,7 @@ var io = require('socket.io')(server);
 
 var bodyParser = require("body-parser");
 
-
+console.log("Folder:"+__dirname);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
