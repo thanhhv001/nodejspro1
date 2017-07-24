@@ -14,6 +14,6 @@
     "express": "^4.15.3",
     "jquery": "^3.2.1",   
     "socket.io": "^2.0.2",
-    "poloniex-unofficia":"^1.1.2"
+    "poloniex-unofficial":"^1.1.2"
   }
 }
