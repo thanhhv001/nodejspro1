@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 
 app.use(express.static(__dirname + '/bower_components'));
 app.get('/', function (req, res, next) {
-    ticker.ticker('poloniex', 'btc_usd').then((ticker) => {
+    ticker.ticker('poloniex', 'usdt_btc').then((ticker) => {
 	console.log(ticker);
 	}).catch((err) => {
 		console.error(err);
