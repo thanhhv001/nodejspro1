@@ -2,6 +2,7 @@
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 var express = require('express');
+const ticker = require('cryptocurrency-ticker');
 var app = express();
 var http = require('http');
 var https = require('https');
@@ -16,12 +17,14 @@ app.use(bodyParser.json());
 
 app.use(express.static(__dirname + '/bower_components'));
 app.get('/', function (req, res, next) {
-    res.sendFile(__dirname + '/index.html');
+    ticker.ticker('poloniex', 'btc_usd').then((ticker) => {
+	console.log(ticker);
+	}).catch((err) => {
+		console.error(err);
+	});
 });
 var port = 3000;
 server.listen(process.env.PORT || port);
-
-const ticker = require('cryptocurrency-ticker');
 
 ticker.availableExchanges().then((exchanges) => {
 	console.log(exchanges);
