@@ -36,7 +36,7 @@ poloPush.ticker((err, response) => {
         // Disconnect 
         return true;
     }
- 
+     console.log(response.currencyPair + ": " + response.last);
     // Check if this currency is in the watch list 
     if (watchList.indexOf(response.currencyPair) > -1) {
         // Log the currency pair and its last price 
