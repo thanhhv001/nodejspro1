@@ -10,8 +10,6 @@ var io = require('socket.io')(server);
 
 var bodyParser = require("body-parser");
 
-var connection = new autobahn.Connection({
-
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
