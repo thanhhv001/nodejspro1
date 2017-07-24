@@ -21,5 +21,25 @@ app.get('/', function (req, res, next) {
 });
 var port = 3000;
 server.listen(process.env.PORT || port);
+// Import the module 
+var polo = require("poloniex-unofficial");
+ 
+// Get access to the push API 
+var poloPush = new polo.PushWrapper();
 
-
+// Get price ticker updates 
+poloPush.ticker((err, response) => {
+    if (err) {
+        // Log error message 
+        console.log("An error occurred: " + err.msg);
+ 
+        // Disconnect 
+        return true;
+    }
+ 
+    // Check if this currency is in the watch list 
+    if (watchList.indexOf(response.currencyPair) > -1) {
+        // Log the currency pair and its last price 
+        console.log(response.currencyPair + ": " + response.last);
+    }
+});
