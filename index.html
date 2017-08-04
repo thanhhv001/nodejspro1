@@ -9,13 +9,18 @@
 	<h1>KhanhNguyen</h1>
 
 	<script src="/socket.io/socket.io.js"></script>
-	<script>
-    var socket = io();
-
-    socket.on('message', function(res){
-      console.log(res);
-      
-    });
+  <script>  
+    var iosocket = io.connect();
+    iosocket.on('connect', function () {
+	console.log("Connected");    
+               
+        iosocket.on('message', function(message) {
+           console.log(message);   
+        });
+        iosocket.on('disconnect', function() {
+            console.log("Disconnected");    
+        });
+     });	        
   </script>
 </body>
 
