@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 
 app.use(express.static(__dirname + '/bower_components'));
 app.get('/', function (req, res, next) {
-    res.send("Hello");
+    res.sendFile("index.html");
 });
 var port = 3000;
 server.listen(process.env.PORT || port);
@@ -36,7 +36,7 @@ poloPush.ticker((err, response) => {
         // Disconnect 
         return true;
     }
-     
+    io.emit('message', response); 
     // Check if this currency is in the watch list 
     if (watchList.indexOf(response.currencyPair) > -1) {
         // Log the currency pair and its last price 
