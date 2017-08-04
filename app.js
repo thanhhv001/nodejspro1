@@ -17,18 +17,9 @@ app.use(bodyParser.json());
 
 app.use(express.static(__dirname + '/bower_components'));
 app.get('/', function (req, res, next) {
-    res.sendFile(__dirname + '/index.html');
-});
-var port = 3000;
-server.listen(process.env.PORT || port);
-//get list 
-router.get('/', function(req, res, next) {
-  request({
+     request({
     uri: 'https://poloniex.com/public?command=returnTicker',
-    qs: {
-      api_key: '123456',
-      query: 'World of Warcraft: Legion'
-    },
+   
     function(error, response, body) {
       if (!error && response.statusCode === 200) {
         console.log(body);
@@ -38,7 +29,11 @@ router.get('/', function(req, res, next) {
       }
     }
   });
+  res.sendFile(__dirname + '/index.html');
 });
+var port = 3000;
+server.listen(process.env.PORT || port);
+
 // Import the module 
 var polo = require("poloniex-unofficial");
  
