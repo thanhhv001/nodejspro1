@@ -2,7 +2,7 @@
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 var express = require('express');
-
+var router = express.Router();
 var app = express();
 var http = require('http');
 var https = require('https');
@@ -21,6 +21,24 @@ app.get('/', function (req, res, next) {
 });
 var port = 3000;
 server.listen(process.env.PORT || port);
+//get list 
+router.get('/', function(req, res, next) {
+  request({
+    uri: 'https://poloniex.com/public?command=returnTicker',
+    qs: {
+      api_key: '123456',
+      query: 'World of Warcraft: Legion'
+    },
+    function(error, response, body) {
+      if (!error && response.statusCode === 200) {
+        console.log(body);
+        res.json(body);
+      } else {
+        res.json(error);
+      }
+    }
+  });
+});
 // Import the module 
 var polo = require("poloniex-unofficial");
  
