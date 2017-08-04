@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 
 app.use(express.static(__dirname + '/bower_components'));
 app.get('/', function (req, res, next) {
-    res.sendFile("index.html");
+    res.sendFile(__dirname + '/index.html');
 });
 var port = 3000;
 server.listen(process.env.PORT || port);
