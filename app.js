@@ -26,7 +26,13 @@ var polo = require("poloniex-unofficial");
  
 // Get access to the push API 
 var poloPush = new polo.PushWrapper();
-
+poloPush.returnTicker((err, response) =>{
+    if(err){
+        console.log(err);
+        return true;
+    }
+    console.log(response);
+})
 // Get price ticker updates 
 poloPush.ticker((err, response) => {
     if (err) {
