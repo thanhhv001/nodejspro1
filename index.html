@@ -8,12 +8,11 @@
 <body>
 	<h1>KhanhNguyen</h1>
 
-	<script src="/socket.io/socket.io.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
   <script>  
     var iosocket = io.connect();
     iosocket.on('connect', function () {
-	console.log("Connected");    
-               
+	console.log("Connected");                   
         iosocket.on('message', function(message) {
            console.log(message);   
         });
