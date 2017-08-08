@@ -16,8 +16,9 @@
 
 </html>
 <script src="/socket.io/socket.io.js"></script>
-<script>  
-angular.module('myApp').factory('socketio', function ($rootScope) {
+<script>
+var myApp = angular.module('myApp', []);
+myApp.factory('socketio', function ($rootScope) {
     var socket = io.connect();
     return {
         on: function (eventName, callback) {
