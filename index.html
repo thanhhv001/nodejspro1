@@ -1,23 +1,98 @@
 <!doctype html>
 <html lang="en">
 
-<head>
-  
+<head>  
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>	
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-smart-table/2.1.8/smart-table.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <style>
+	#marketsContainer tr.priceChangeUp td 
+	{
+	  background-color: #ceebd3 !important;
+	  border-top: 1px double #27892f;
+	  border-bottom: 1px double #27892f;
+	  -webkit-transition-duration: 0.1s;
+	  -moz-transition-duration: 0.1s;
+	  transition-duration: 0.1s; 
+	}
+	
+	#marketsContainer tr.priceChangeDown td 
+	{
+	  background-color: #f6d4d1 !important;
+	  border-top: 1px double #c02a1d;
+	  border-bottom: 1px double #c02a1d;
+	  -webkit-transition-duration: 0.1s;
+	  -moz-transition-duration: 0.1s;
+	  transition-duration: 0.1s; 
+	}
+  
+  </style>
 </head>
 
 <body ng-app="myApp">
 	<h1>KhanhNguyen</h1>
-	<div ng-controller="MainCtrl">
-		
+	<div id="marketsContainer" ng-controller="MainCtrl">
+		<table st-table="display_records"  st-safe-src="currencies" class="table table-striped">
+			<thead>
+				<tr>
+					<th>Coin</th>
+					<th st-sort="last">Price</th>
+					<th st-sort="baseVolume">Volumne</th>
+					<th st-sort="percentChange">Change</th>
+					<th>Lowest Ask</th>
+					<th>Hightest Bid</th>
+				</tr>
+				<tr>
+					<th colspan="4">
+						<input st-search placeholder="global search" class="input-sm form-control" type="search"/>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr st-select-row="row" st-select-mode="multiple" ng-repeat="row in display_records">
+					<td>{{row.currencyPair}}</td>
+					<td>{{row.last}}</td>
+					<td>{{row.baseVolume}}</td>
+					<td>{{row.percentChange}}</td>
+					<td>{{row.lowestAsk}}</td>
+					<td>{{row.highestBid}}</td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
   
 </body>
 
 </html>
-<script src="/socket.io/socket.io.js"></script>
+
 <script>
 var myApp = angular.module('myApp', []);
+myApp.controller("MainCtrl", MainCtrl);
+function MainCtrl($scope, socketio) {
+	$scope.currencies=[];
+	$scope.updateTicker=function(data){
+		var found = $filter('filter')($scope.currencies, {currencyPair: data.currencyPair}, true);
+		if(found){
+		
+		}
+	}
+    socketio.on('connect', function () {
+	    console.log("Connected");
+	
+    })	
+    socketio.on('message', function(data) {
+		var found = $filter('filter')($scope.currencies, {currencyPair: data.currencyPair}, true);
+		if(found.length){
+			$scope.currencies[$scope.currencies.indexOf(found[0])] = data;
+		}else{
+			$scope.currencies.push(response);
+		}
+        
+    });
+    socketio.on('disconnect', function() {
+            console.log("Disconnected");    
+     });		
+}
 myApp.factory('socketio', function ($rootScope) {
     var socket = io.connect();
     return {
@@ -42,18 +117,6 @@ myApp.factory('socketio', function ($rootScope) {
     };
 });
 
-angular.module('myApp').controller("MainCtrl", MainCtrl);
-function MainCtrl($scope, socketio) {
-    socketio.on('connect', function () {
-	    console.log("Connected");
-	
-    })	
-    socketio.on('message', function(response) {
-            console.log(response);
-    	});
-    socketio.on('disconnect', function() {
-            console.log("Disconnected");    
-     });		
-}	        
+	        
 </script>
 
