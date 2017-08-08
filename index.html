@@ -87,7 +87,7 @@ function MainCtrl($scope, socketio,$filter) {
 		}else{
 			$scope.currencies.push(data);
 		}
-        
+        console.log($scope.currencies);
     });
     socketio.on('disconnect', function() {
             console.log("Disconnected");    
