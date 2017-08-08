@@ -68,7 +68,7 @@
 <script>
 var myApp = angular.module('myApp', []);
 myApp.controller("MainCtrl", MainCtrl);
-function MainCtrl($scope,$filter, socketio) {
+function MainCtrl($scope, socketio,$filter) {
 	$scope.currencies=[];
 	$scope.updateTicker=function(data){
 		var found = $filter('filter')($scope.currencies, {currencyPair: data.currencyPair}, true);
@@ -85,7 +85,7 @@ function MainCtrl($scope,$filter, socketio) {
 		if(found.length){
 			$scope.currencies[$scope.currencies.indexOf(found[0])] = data;
 		}else{
-			$scope.currencies.push(response);
+			$scope.currencies.push(data);
 		}
         
     });
