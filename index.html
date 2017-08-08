@@ -68,7 +68,7 @@
 <script>
 var myApp = angular.module('myApp', []);
 myApp.controller("MainCtrl", MainCtrl);
-function MainCtrl($scope, socketio) {
+function MainCtrl($scope,$filter, socketio) {
 	$scope.currencies=[];
 	$scope.updateTicker=function(data){
 		var found = $filter('filter')($scope.currencies, {currencyPair: data.currencyPair}, true);
