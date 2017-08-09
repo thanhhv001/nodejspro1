@@ -34,7 +34,7 @@
 <body ng-app="myApp">
 	<h1>KhanhNguyen</h1>
 	<div id="marketsContainer" ng-controller="MainCtrl">
-		<table st-table="btc_currencies" class="table table-striped">
+		<table  st-safe-src="btc_currencies" st-table="currencies" class="table table-striped">
 			<thead>
 				<tr>
 					<th>Coin</th>
@@ -51,7 +51,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr st-select-row="row" st-select-mode="multiple" ng-repeat="row in btc_currencies">
+				<tr st-select-row="row"  ng-repeat="row in currencies">
 					<td>{{row.name}}</td>
 					<td>{{row.last}}</td>
 					<td>{{row.baseVolume}}</td>
@@ -72,6 +72,7 @@ var myApp = angular.module('myApp', []);
 myApp.controller("MainCtrl", MainCtrl);
 function MainCtrl($scope, socketio,$filter) {
 	$scope.btc_currencies=[];
+	$scope.currencies=[];
 	$scope.usdt_currencies=[];
 	
 	$scope.startwithBTC="BTC_";
