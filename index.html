@@ -104,12 +104,12 @@ function MainCtrl($scope, socketio,$filter) {
     socketio.on('message', function(data) {
 		if(data.currencyPair.startsWith($scope.startwithBTC)){
 			console.log("BTC");
-			data.name=data.currencyPair.replace($scope.startwithBTC);			
+			data.name=data.currencyPair.replace($scope.startwithBTC,"");			
 			$scope.updateTicker(data,$scope.btc_currencies);
 			
 		}else if(data.currencyPair.startsWith($scope.startwithUSDT)){
 			console.log("USDT");
-			data.name=data.currencyPair.replace($scope.startwithUSDT);
+			data.name=data.currencyPair.replace($scope.startwithUSDT,,"");
 			$scope.updateTicker(data,$scope.usdt_currencies);
 			
 		}		
