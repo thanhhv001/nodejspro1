@@ -32,7 +32,7 @@
 <body ng-app="myApp">
 	<h1>KhanhNguyen</h1>
 	<div id="marketsContainer" ng-controller="MainCtrl">
-		<table st-table="currencies"  st-safe-src="currencies" class="table table-striped">
+		<table st-table="btc_currencies"  st-safe-src="btc_currencies" class="table table-striped">
 			<thead>
 				<tr>
 					<th>Coin</th>
@@ -43,14 +43,14 @@
 					<th>Hightest Bid</th>
 				</tr>
 				<tr>
-					<th colspan="4">
+					<th colspan="6">
 						<input st-search placeholder="global search" class="input-sm form-control" type="search"/>
 					</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr st-select-row="row" st-select-mode="multiple" ng-repeat="row in currencies">
-					<td>{{row.currencyPair}}</td>
+					<td>{{row.name}}</td>
 					<td>{{row.last}}</td>
 					<td>{{row.baseVolume}}</td>
 					<td>{{row.percentChange}}</td>
@@ -69,30 +69,48 @@
 var myApp = angular.module('myApp', []);
 myApp.controller("MainCtrl", MainCtrl);
 function MainCtrl($scope, socketio,$filter) {
-	$scope.currencies=[];
-	$scope.updateTicker=function(data){
-		angular.forEach($scope.currencies, function(c, i) {
+	$scope.btc_currencies=[];
+	$scope.usdt_currencies=[];
+	
+	$scope.startwithBTC="BTC";
+	$scope.startwithUSDT="USDT";
+	
+	$scope.updateTicker=function(data,currencies,split_word){
+		var found=false;
+		//update price
+		angular.forEach(currencies, function(c, i) {
           if (c.currencyPair === data.currencyPair ) {
-            $scope.currencies[i] = data;
+            currencies[i] = data;
+			found=true;	
           }
         });
-	}
-    socketio.on('connect', function () {
-	    console.log("Connected");
-	
-    })	
-    socketio.on('message', function(data) {
-		console.log(data);
-		var found = $filter('filter')($scope.currencies, {currencyPair: data.currencyPair}, true);
-		if(found.length){
-			console.log(found);
-			$scope.updateTicker(data);
-			console.log(found[0]);
-		}else{
-			$scope.currencies.push(data);
+		//add new price
+		if(!found){
+			data.name=data.currencyPair.split(split_word)[1];
+			currencies.push(data);
 		}
+	}
+	
+    socketio.on('connect', function () {
+	    console.log("Connected");	
+    });
+	
+    socketio.on('message', function(data) {
+		if(data.currencyPair.startsWith($scope.startwithBTC)){
+			$scope.updateTicker(data,$scope.btc_currencies,$scope.startwithBTC);
+		}else if(data.currencyPair.startsWith($scope.startwithUSDT)){
+			$scope.updateTicker(data,$scope.usdt_currencies,$scope.startwithUSDT);
+		}
+		/*var found = $filter('filter')($scope.currencies, {currencyPair: data.currencyPair}, true);
+		if(found.length){			
+			$scope.updateTicker(data);			
+		}else{
+			console.log("New");
+			$scope.currencies.push(data);
+		}*/
         
     });
+	
     socketio.on('disconnect', function() {
             console.log("Disconnected");    
      });		
