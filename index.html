@@ -71,10 +71,11 @@ myApp.controller("MainCtrl", MainCtrl);
 function MainCtrl($scope, socketio,$filter) {
 	$scope.currencies=[];
 	$scope.updateTicker=function(data){
-		var found = $filter('filter')($scope.currencies, {currencyPair: data.currencyPair}, true);
-		if(found){
-		
-		}
+		angular.forEach($scope.currencies, function(c, i) {
+          if (c.currencyPair === data.currencyPair ) {
+            $scope.currencies[i] = data;
+          }
+        });
 	}
     socketio.on('connect', function () {
 	    console.log("Connected");
@@ -85,7 +86,7 @@ function MainCtrl($scope, socketio,$filter) {
 		var found = $filter('filter')($scope.currencies, {currencyPair: data.currencyPair}, true);
 		if(found.length){
 			console.log(found);
-			$scope.currencies[$scope.currencies.indexOf(found[0])] = data;
+			$scope.updateTicker(data);
 			console.log(found[0]);
 		}else{
 			$scope.currencies.push(data);
