@@ -109,7 +109,7 @@ function MainCtrl($scope, socketio,$filter) {
 			
 		}else if(data.currencyPair.startsWith($scope.startwithUSDT)){
 			console.log("USDT");
-			data.name=data.currencyPair.replace($scope.startwithUSDT,,"");
+			data.name=data.currencyPair.replace($scope.startwithUSDT,"");
 			$scope.updateTicker(data,$scope.usdt_currencies);
 			
 		}		
