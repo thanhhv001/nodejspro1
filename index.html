@@ -3,7 +3,7 @@
 
 <head>  
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>	
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-smart-table/2.1.8/smart-table.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-smart-table/2.1.8/smart-table.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <style>
 	#marketsContainer tr.priceChangeUp td 
@@ -44,7 +44,7 @@
 				</tr>
 				<tr>
 					<th colspan="6">
-						<input st-search placeholder="global search" class="input-sm form-control" type="search"/>
+						<input st-search="name" placeholder="global search" class="input-sm form-control" type="search"/>
 					</th>
 				</tr>
 			</thead>
