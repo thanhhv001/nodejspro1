@@ -72,8 +72,8 @@ function MainCtrl($scope, socketio,$filter) {
 	$scope.btc_currencies=[];
 	$scope.usdt_currencies=[];
 	
-	$scope.startwithBTC="BTC";
-	$scope.startwithUSDT="USDT";
+	$scope.startwithBTC="BTC_";
+	$scope.startwithUSDT="USDT_";
 	
 	$scope.updateTicker=function(data,currencies,split_word){
 		var found=false;
@@ -89,6 +89,7 @@ function MainCtrl($scope, socketio,$filter) {
 			data.name=data.currencyPair.split(split_word)[1];
 			currencies.push(data);
 		}
+		
 	}
 	
     socketio.on('connect', function () {
@@ -97,9 +98,13 @@ function MainCtrl($scope, socketio,$filter) {
 	
     socketio.on('message', function(data) {
 		if(data.currencyPair.startsWith($scope.startwithBTC)){
+			console.log("BTC");
 			$scope.updateTicker(data,$scope.btc_currencies,$scope.startwithBTC);
+			console.log($scope.btc_currencies);
 		}else if(data.currencyPair.startsWith($scope.startwithUSDT)){
+			console.log("USDT");
 			$scope.updateTicker(data,$scope.usdt_currencies,$scope.startwithUSDT);
+			console.log($scope.usdt_currencies);
 		}
 		/*var found = $filter('filter')($scope.currencies, {currencyPair: data.currencyPair}, true);
 		if(found.length){			
