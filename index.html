@@ -109,7 +109,7 @@ function MainCtrl($scope, socketio,$filter) {
 			console.log("BTC");
 			data.name=data.currencyPair.replace($scope.startwithBTC,"");			
 			$scope.updateTicker(data,$scope.btc_currencies);
-			
+			$scope.currencies=$scope.btc_currencies;
 		}else if(data.currencyPair.startsWith($scope.startwithUSDT)){
 			console.log("USDT");
 			data.name=data.currencyPair.replace($scope.startwithUSDT,"");
