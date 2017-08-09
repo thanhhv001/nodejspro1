@@ -5,7 +5,7 @@
   
   <link  type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>	
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-smart-table/2.1.8/smart-table.js"></script>
+ 
   <script src="/socket.io/socket.io.js"></script>
   <style>
 	#marketsContainer tr.priceChangeUp td 
@@ -34,7 +34,7 @@
 <body ng-app="myApp">
 	<h1>KhanhNguyen</h1>
 	<div id="marketsContainer" ng-controller="MainCtrl">
-		<table  st-safe-src="btc_currencies" st-table="currencies" class="table table-striped">
+		<table  st-safe-src="btc_currencies" st-table="btc_currencies" class="table table-striped">
 			<thead>
 				<tr>
 					<th>Coin</th>
@@ -149,4 +149,4 @@ myApp.factory('socketio', function ($rootScope) {
 
 	        
 </script>
-
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-smart-table/2.1.8/smart-table.js"></script>
