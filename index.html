@@ -2,6 +2,8 @@
 <html lang="en">
 
 <head>  
+  
+  <link  type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>	
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-smart-table/2.1.8/smart-table.js"></script>
   <script src="/socket.io/socket.io.js"></script>
@@ -32,7 +34,7 @@
 <body ng-app="myApp">
 	<h1>KhanhNguyen</h1>
 	<div id="marketsContainer" ng-controller="MainCtrl">
-		<table st-table="btc_currencies"  st-safe-src="btc_currencies" class="table table-striped">
+		<table st-table="btc_currencies" class="table table-striped">
 			<thead>
 				<tr>
 					<th>Coin</th>
@@ -44,7 +46,7 @@
 				</tr>
 				<tr>
 					<th colspan="6">
-						<input st-search="name" placeholder="global search" class="input-sm form-control" type="search"/>
+						<input st-search="name"  class="form-control" type="search"/>
 					</th>
 				</tr>
 			</thead>
