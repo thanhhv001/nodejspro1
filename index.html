@@ -81,6 +81,7 @@ function MainCtrl($scope, socketio,$filter) {
 	
     })	
     socketio.on('message', function(data) {
+		onsole.log(data);
 		var found = $filter('filter')($scope.currencies, {currencyPair: data.currencyPair}, true);
 		if(found.length){
 			$scope.currencies[$scope.currencies.indexOf(found[0])] = data;
