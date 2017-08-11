@@ -69,7 +69,7 @@
 </html>
 
 <script>
-var myApp = angular.module('myApp', );
+var myApp = angular.module('myApp', []);
 myApp.controller("MainCtrl", MainCtrl);
 function MainCtrl($scope, socketio,$filter) {
 	$scope.btc_currencies=[];
