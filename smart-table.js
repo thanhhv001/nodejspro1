@@ -1,5 +1,5 @@
 /** 
-* @version 2.1.2
+* @version 2.1.1
 * @license MIT
 */
 (function (ng, undefined){
@@ -392,7 +392,7 @@ ng.module('smart-table')
       restrict: 'EA',
       require: '^stTable',
       scope: {
-        stItemsByPage: '=1',
+        stItemsByPage: '=?',
         stDisplayedPages: '=?',
         stPageChange: '&'
       },
