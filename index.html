@@ -157,7 +157,7 @@ function MainCtrl($scope, socketio,$filter) {
 	    console.log("Connected");	
     });
 	
-    socketio.on('message', function(data) {
+    socketio.on('messages', function(data) {
 		if(data.currencyPair.startsWith($scope.startwithBTC)){
 			console.log("BTC");
 			data.name=data.currencyPair.replace($scope.startwithBTC,"");			
