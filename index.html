@@ -35,7 +35,7 @@
 <body ng-app="myApp">
 	<h1>KhanhNguyen</h1>
 	<div id="marketsContainer" ng-controller="MainCtrl">
-		<table  st-safe-src="btc_currencies" st-table="btc_currencies" class="table table-striped">
+		<table  st-table="btc_currencies" class="table table-striped">
 			<thead>
 				<tr>
 					<th>Coin</th>
@@ -129,6 +129,7 @@ function MainCtrl($scope, socketio,$filter) {
 	
 	$scope.startwithBTC="BTC_";
 	$scope.startwithUSDT="USDT_";
+	scope.displayCollection = [];
 	
 	$scope.updateTicker=function(data,currencies){
 	
@@ -161,12 +162,12 @@ function MainCtrl($scope, socketio,$filter) {
 			console.log("BTC");
 			data.name=data.currencyPair.replace($scope.startwithBTC,"");			
 			$scope.updateTicker(data,$scope.btc_currencies);
-			$scope.currencies=$scope.btc_currencies;
+			$scope.displayCollection=[].concat($scope.btc_currencies);
 		}else if(data.currencyPair.startsWith($scope.startwithUSDT)){
 			console.log("USDT");
 			data.name=data.currencyPair.replace($scope.startwithUSDT,"");
 			$scope.updateTicker(data,$scope.usdt_currencies);
-			
+			scope.displayCollection=[].concat($scope.usdt_currencies);
 		}		
         
     });
