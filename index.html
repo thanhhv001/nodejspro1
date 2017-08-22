@@ -64,39 +64,35 @@
 		</table>
 	</div>
 	<div class="smart-table" ng-controller="filterCtrl">
-		<table st-safe-src="rowCollection" st-table="displayCollection" st-set-filter="myStrictFilter" class="table table-striped">
+		<table st-table="rowCollection" class="table table-striped">
 			<thead>
-				<tr>
-					<th st-sort="firstName">first name</th>
-					<th st-sort="lastName">last name</th>
-					<th st-sort="strictSearchValue">strict search</th>
-					<th st-sort="strictSelectValue">strict select</th>
-				</tr>
-				<tr>
-					<th>
-						<input st-search="firstName" placeholder="search for firstname" class="input-sm form-control" type="search"/>
-					</th>
-					<th>
-						<input st-search="lastName" placeholder="search for lastname" class="input-sm form-control" type="search"/>
-					</th>
-					<th>
-						<input st-search="strictSearchValue" placeholder="search for equal match" class="input-sm form-control" type="search"/>
-					</th>
-					<th>
-						<select st-search="strictSelectValue">
-							<option value="">All</option>
-							<option ng-repeat="row in rowCollection | unique:'strictSelectValue'" value="{{row.strictSelectValue}}">{{row.strictSelectValue}}</option>
-						</select>
-					</th>
-				</tr>
+			<tr>
+				<th st-sort="firstName">first name</th>
+				<th st-sort="lastName">last name</th>
+				<th st-sort="birthDate">birth date</th>
+				<th st-sort="balance">balance</th>
+				<th>email</th>
+			</tr>
+			<tr>
+				<th>
+					<input st-search="firstName" placeholder="search for firstname" class="input-sm form-control" type="search"/>
+				</th>
+				<th colspan="3">
+					<input st-search placeholder="global search" class="input-sm form-control" type="search"/>
+				</th>
+				<th>
+					<input st-search="{{selectedPredicate}}" placeholder="bound predicate" class="input-sm form-control" type="search"/>
+				</th>
+			</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat="row in displayCollection">
-					<td>{{row.firstName | uppercase}}</td>
-					<td>{{row.lastName}}</td>
-					<td>{{row.strictSearchValue}}</td>
-					<td>{{row.strictSelectValue}}</td>
-				</tr>
+			<tr ng-repeat="row in rowCollection">
+				<td>{{row.firstName | uppercase}}</td>
+				<td>{{row.lastName}}</td>
+				<td>{{row.birthDate | date}}</td>
+				<td>{{row.balance | currency}}</td>
+				<td><a ng-href="mailto:{{row.email}}">email</a></td>
+			</tr>
 			</tbody>
 		</table>
 	</div>
@@ -122,24 +118,7 @@ myApp.controller('filterCtrl', ['$scope', '$filter', function (scope, filter) {
     scope.selectedPredicate = scope.predicates[0];
 }]);
 
-myApp.filter('myStrictFilter', function($filter){
-    return function(input, predicate){
-        return $filter('filter')(input, predicate, true);
-    }
-});
 
-myApp.filter('unique', function() {
-    return function (arr, field) {
-        var o = {}, i, l = arr.length, r = [];
-        for(i=0; i<l;i+=1) {
-            o[arr[i][field]] = arr[i];
-        }
-        for(i in o) {
-            r.push(o[i]);
-        }
-        return r;
-    };
-  })
 
 
 myApp.controller("MainCtrl", MainCtrl);
