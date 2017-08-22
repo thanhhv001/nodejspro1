@@ -9,7 +9,8 @@
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {   
+  "dependencies": { 
+    "autobahn": "^17.5.2",
     "body-parser": "^1.17.2",
     "express": "^4.15.3",
     "jquery": "^3.2.1",   
