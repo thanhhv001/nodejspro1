@@ -167,7 +167,7 @@ function MainCtrl($scope, socketio,$filter) {
 			console.log("USDT");
 			data.name=data.currencyPair.replace($scope.startwithUSDT,"");
 			$scope.updateTicker(data,$scope.usdt_currencies);
-			scope.displayCollection=[].concat($scope.usdt_currencies);
+			$scope.displayCollection=[].concat($scope.usdt_currencies);
 		}		
         
     });
