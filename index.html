@@ -120,7 +120,7 @@ myApp.controller('filterCtrl', ['$scope', '$filter', function (scope, filter) {
 
     scope.predicates = ['firstName', 'lastName', 'birthDate', 'balance', 'email'];
     scope.selectedPredicate = scope.predicates[0];
-]);
+}]);
 
 myApp.filter('myStrictFilter', function($filter){
     return function(input, predicate){
