@@ -167,7 +167,7 @@ function MainCtrl($scope,socketio,$filter,commonService) {
 				currency=$scope.buildCurrencyObject(value,key);
 				$scope.pushToListCurrenices(currency);				
 			});
-			scope.displayCollection= [].concat($scope.btc_pcurrencies);
+			$scope.displayCollection= [].concat($scope.btc_pcurrencies);
 			
 		},function(error){
 			console.log(error);
