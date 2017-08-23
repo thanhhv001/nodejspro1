@@ -136,37 +136,26 @@ function MainCtrl($scope,socketio,$filter,commonService) {
 	}
 	
 	$scope.pushToListCurrenices=function(currency){
-	
-		//var c=$scope.buildCurrencyObject(currency);
-		
-		if(c.currencyPair.startsWith($scope.startwithBTC)){
+					
+		if(currency.currencyPair.startsWith($scope.startwithBTC)){
 			console.log("BTC");					
-			$scope.updateTicker(data,$scope.btc_pcurrencies);
+			$scope.updateTicker(currency,$scope.btc_pcurrencies);
 			
-		}else if(data.currencyPair.startsWith($scope.startwithUSDT)){
+		}else if(currency.currencyPair.startsWith($scope.startwithUSDT)){
 			console.log("USDT");			
-			$scope.updateTicker(data,$scope.usdt_pcurrencies);			
+			$scope.updateTicker(currency,$scope.usdt_pcurrencies);			
 		}	
 	}
 	
 	$scope.buildCurrencyObject=function(value, key){
-		console.log("value:",value);
-		console.log("key:",key);
-		/*angular.forEach(currency, function(value, key){
-			if(key.startsWith($scope.startwithBTC)){
-				value.name=key.replace($scope.startwithBTC,"");				
-			}else{
-				value.name=key.replace($scope.startwithUSDT,"");
-			}
-			value.currencyPair=key;	
-		});*/
+		
 		if(key.startsWith($scope.startwithBTC)){
 			value.name=key.replace($scope.startwithBTC,"");				
 		}else{
 			value.name=key.replace($scope.startwithUSDT,"");
 		}
 		value.currencyPair=key;
-		console.log("value after:",value);		
+			
 		return value;
 	}
 	
@@ -176,7 +165,7 @@ function MainCtrl($scope,socketio,$filter,commonService) {
 			var data = JSON.parse(response.data);
 			angular.forEach(data, function(value,key){
 				currency=$scope.buildCurrencyObject(value,key);
-				//$scope.pushToListCurrenices(currency);				
+				$scope.pushToListCurrenices(currency);				
 			});
 			
 		},function(error){
