@@ -122,7 +122,7 @@ myApp.controller('filterCtrl', ['$scope', '$filter', function (scope, filter) {
 
 
 myApp.controller("MainCtrl", MainCtrl);
-function MainCtrl($scope, socketio,$filter,commonService,$http) {
+function MainCtrl($scope, socketio,$filter,commonService) {
 	$scope.btc_currencies=[];
 	$scope.currencies=[];
 	$scope.usdt_currencies=[];
@@ -212,7 +212,7 @@ myApp.factory('socketio', function ($rootScope) {
         }
     };
 });
-myApp.factory('commonService',function(){
+myApp.factory('commonService',['$htpp',function($http){
 	return{
 		ajaxRequest: function(url){
 			$http({
@@ -222,7 +222,7 @@ myApp.factory('commonService',function(){
 		}
 	}
 
-})
+}])
 
 	        
 </script>
