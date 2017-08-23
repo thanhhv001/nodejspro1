@@ -132,7 +132,7 @@ function MainCtrl($scope,socketio,$filter,commonService) {
 	$scope.displayCollection = [];
 	
 	$scope.init=function(){
-		$scope.getPTicker();
+		//$scope.getPTicker();
 	}
 	
 	$scope.getPTicker=function(){
@@ -215,10 +215,10 @@ myApp.factory('socketio', function ($rootScope) {
 myApp.factory('commonService',['$htpp',function($http){
 	return{
 		ajaxRequest: function(url){
-			return $http({
+			$http({
 			  method: 'POST',
 			  url: url
-			})
+			});
 		}
 	}
 }])
