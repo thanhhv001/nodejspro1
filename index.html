@@ -122,7 +122,7 @@ myApp.controller('filterCtrl', ['$scope', '$filter', function (scope, filter) {
 
 
 myApp.controller("MainCtrl", MainCtrl);
-function MainCtrl($scope, socketio,$filter,commonService) {
+function MainCtrl($scope, socketio,$filter,commonService,$http) {
 	$scope.btc_currencies=[];
 	$scope.currencies=[];
 	$scope.usdt_currencies=[];
