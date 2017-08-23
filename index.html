@@ -171,7 +171,7 @@ function MainCtrl($scope,socketio,$filter,commonService) {
 			for(currency in data){
 				console.log(currency);
 			}
-			console.log(data);
+			console.log(data[0]);
 		},function(error){
 			console.log(error);
 		})
