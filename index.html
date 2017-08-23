@@ -215,7 +215,7 @@ myApp.factory('socketio', function ($rootScope) {
 myApp.factory('commonService',['$http',function($http){
 	return{
 		ajaxRequest: function(url){
-			$http({
+			return $http({
 			  method: 'POST',
 			  url: url
 			});
