@@ -137,7 +137,7 @@ function MainCtrl($scope,socketio,$filter,commonService) {
 	
 	$scope.pushToListCurrenices=function(currency){
 	
-		var c=$scope.buildCurrencyObject(currency);
+		//var c=$scope.buildCurrencyObject(currency);
 		
 		if(c.currencyPair.startsWith($scope.startwithBTC)){
 			console.log("BTC");					
@@ -149,29 +149,36 @@ function MainCtrl($scope,socketio,$filter,commonService) {
 		}	
 	}
 	
-	$scope.buildCurrencyObject=function(currency){
-		angular.forEach(currency, function(value, key){
+	$scope.buildCurrencyObject=function(value, key){
+		console.log("value:",value);
+		console.log("key:",key);
+		/*angular.forEach(currency, function(value, key){
 			if(key.startsWith($scope.startwithBTC)){
 				value.name=key.replace($scope.startwithBTC,"");				
 			}else{
 				value.name=key.replace($scope.startwithUSDT,"");
 			}
 			value.currencyPair=key;	
-		});
-		return currency;
+		});*/
+		if(key.startsWith($scope.startwithBTC)){
+			value.name=key.replace($scope.startwithBTC,"");				
+		}else{
+			value.name=key.replace($scope.startwithUSDT,"");
+		}
+		value.currencyPair=key;
+		console.log("value after:",value);		
+		return value;
 	}
 	
 	$scope.getPTicker=function(){
 		var url='/getPTicker';
 		commonService.ajaxRequest(url).then(function(response){			
 			var data = JSON.parse(response.data);
-			//angular.forEach(data, function(currency){
+			angular.forEach(data, function(value,key){
+				currency=$scope.buildCurrencyObject(value,key);
 				//$scope.pushToListCurrenices(currency);				
-			//});
-			for(currency in data){
-				console.log(currency);
-			}
-			console.log(data[0]);
+			});
+			
 		},function(error){
 			console.log(error);
 		})
