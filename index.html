@@ -137,8 +137,8 @@ function MainCtrl($scope,socketio,$filter,commonService) {
 	
 	$scope.getPTicker=function(){
 		var url='/getPTicker';
-		commonService.ajaxRequest(url).then(function(res){
-			console.log(res);
+		commonService.ajaxRequest(url).then(function(response){
+			console.log(response);
 		},function(error){
 			console.log(error);
 		})
@@ -171,6 +171,7 @@ function MainCtrl($scope,socketio,$filter,commonService) {
     });
 	
     socketio.on('messages', function(data) {
+		return;
 		if(data.currencyPair.startsWith($scope.startwithBTC)){
 			console.log("BTC");
 			data.name=data.currencyPair.replace($scope.startwithBTC,"");			
