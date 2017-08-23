@@ -103,7 +103,7 @@
 
 <script>
 
-var myApp = angular.module('myApp', ['smart-table','$http']);
+var myApp = angular.module('myApp', ['smart-table']);
 
 myApp.controller('filterCtrl', ['$scope', '$filter', function (scope, filter) {
     scope.rowCollection = [
@@ -132,7 +132,7 @@ function MainCtrl($scope,socketio,$filter,commonService) {
 	$scope.displayCollection = [];
 	
 	$scope.init=function(){
-		//$scope.getPTicker();
+		$scope.getPTicker();
 	}
 	
 	$scope.getPTicker=function(){
@@ -212,7 +212,7 @@ myApp.factory('socketio', function ($rootScope) {
         }
     };
 });
-myApp.factory('commonService',['$htpp',function($http){
+myApp.factory('commonService',['$http',function($http){
 	return{
 		ajaxRequest: function(url){
 			$http({
