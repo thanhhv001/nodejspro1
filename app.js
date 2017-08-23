@@ -29,7 +29,7 @@ app.get('/', function (req, res, next) {
   res.sendFile(__dirname + '/index.html');
 });
 
-app.get('/ticker',function(){
+app.get('/getPTicker',function(){
 	var url = 'https://poloniex.com/public?command=returnTicker';
     var body = '';
     https.get(url, function(response){
