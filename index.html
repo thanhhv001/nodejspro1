@@ -138,7 +138,9 @@ function MainCtrl($scope,socketio,$filter,commonService) {
 	$scope.getPTicker=function(){
 		var url='/getPTicker';
 		commonService.ajaxRequest(url).then(function(response){
-			console.log(response.data);
+			var data = JSON.parse(response.data);
+			console.log(data);
+			console.log(data);
 		},function(error){
 			console.log(error);
 		})
