@@ -35,7 +35,7 @@
 <body ng-app="myApp">
 	<h1>KhanhNguyen</h1>
 	<div id="marketsContainer" ng-controller="MainCtrl" ng-init="init()">
-		<table  st-table="btc_pcurrencies" class="table table-striped">
+		<table st-safe-src="btc_pcurrencies" st-table="displayCollection"   class="table table-striped">
 			<thead>
 				<tr>
 					<th>Coin</th>
@@ -52,8 +52,8 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr st-select-row="row"  ng-repeat="row in btc_pcurrencies">
-					<td>{{row.name}}</td>
+				<tr  ng-repeat="row in displayCollection">
+					<td>{{row.name | uppercase}}}</td>
 					<td>{{row.last}}</td>
 					<td>{{row.baseVolume}}</td>
 					<td>{{row.percentChange}}</td>
@@ -168,7 +168,6 @@ function MainCtrl($scope,socketio,$filter,commonService) {
 				$scope.pushToListCurrenices(currency);				
 			});
 			$scope.displayCollection= [].concat($scope.btc_pcurrencies);
-			
 		},function(error){
 			console.log(error);
 		})
