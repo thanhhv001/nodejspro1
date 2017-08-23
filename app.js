@@ -38,7 +38,7 @@ app.post('/getPTicker',function(req, res, nex){
         });
 
         response.on('end', function(){
-            console.log("Got a response: ", body);
+            
             res.json(body);
 			console.log(res);
         });
