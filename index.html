@@ -131,7 +131,7 @@ function MainCtrl($scope, socketio,$filter,commonService) {
 	$scope.startwithUSDT="USDT_";
 	$scope.displayCollection = [];
 	
-	$scope.init(){
+	$scope.init=function(){
 		$scope.getPTicker();
 	}
 	
