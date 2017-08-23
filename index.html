@@ -212,18 +212,17 @@ myApp.factory('socketio', function ($rootScope) {
         }
     };
 });
-myApp.factory('commonService',function(){
+myApp.factory('commonService',['$htpp',function(http){
 	return{
 		ajaxRequest: function(url){
-			console.log("common service");
-			$http({
+			http({
 			  method: 'POST',
 			  url: url
 			})
 		}
 	}
 
-})
+}])
 
 	        
 </script>
