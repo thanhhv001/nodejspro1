@@ -35,7 +35,7 @@
 <body ng-app="myApp">
 	<h1>KhanhNguyen</h1>
 	<div id="marketsContainer" ng-controller="MainCtrl" ng-init="init()">
-		<table  st-table="btc_currencies" class="table table-striped">
+		<table  st-table="btc_pcurrencies" class="table table-striped">
 			<thead>
 				<tr>
 					<th>Coin</th>
@@ -123,9 +123,9 @@ myApp.controller('filterCtrl', ['$scope', '$filter', function (scope, filter) {
 
 myApp.controller("MainCtrl", MainCtrl);
 function MainCtrl($scope,socketio,$filter,commonService) {
-	$scope.btc_currencies=[];
+	$scope.btc_pcurrencies=[];
 	$scope.currencies=[];
-	$scope.usdt_currencies=[];
+	$scope.usdt_pcurrencies=[];
 	
 	$scope.startwithBTC="BTC_";
 	$scope.startwithUSDT="USDT_";
@@ -135,11 +135,40 @@ function MainCtrl($scope,socketio,$filter,commonService) {
 		$scope.getPTicker();
 	}
 	
+	$scope.pushToListCurrenices=function(currency){
+	
+		var c=$scope.buildCurrencyObject(currency);
+		
+		if(c.currencyPair.startsWith($scope.startwithBTC)){
+			console.log("BTC");					
+			$scope.updateTicker(data,$scope.btc_pcurrencies);
+			
+		}else if(data.currencyPair.startsWith($scope.startwithUSDT)){
+			console.log("USDT");			
+			$scope.updateTicker(data,$scope.usdt_pcurrencies);			
+		}	
+	}
+	
+	$scope.buildCurrencyObject=function(currency){
+		angular.forEach(currency, function(value, key){
+			if(key.startsWith($scope.startwithBTC)){
+				value.name=key.replace($scope.startwithBTC,"");				
+			}else{
+				value.name=key.replace($scope.startwithUSDT,"");
+			}
+			value.currencyPair=key;	
+		});
+		return currency;
+	}
+	
 	$scope.getPTicker=function(){
 		var url='/getPTicker';
-		commonService.ajaxRequest(url).then(function(response){
+		commonService.ajaxRequest(url).then(function(response){			
 			var data = JSON.parse(response.data);
-			console.log(data);
+			angular.forEach(data, function(currency){
+				$scope.pushToListCurrenices(currency);				
+			});
+			
 			console.log(data);
 		},function(error){
 			console.log(error);
@@ -177,13 +206,13 @@ function MainCtrl($scope,socketio,$filter,commonService) {
 		if(data.currencyPair.startsWith($scope.startwithBTC)){
 			console.log("BTC");
 			data.name=data.currencyPair.replace($scope.startwithBTC,"");			
-			$scope.updateTicker(data,$scope.btc_currencies);
-			$scope.displayCollection=[].concat($scope.btc_currencies);
+			$scope.updateTicker(data,$scope.btc_pcurrencies);
+			$scope.displayCollection=[].concat($scope.btc_pcurrencies);
 		}else if(data.currencyPair.startsWith($scope.startwithUSDT)){
 			console.log("USDT");
 			data.name=data.currencyPair.replace($scope.startwithUSDT,"");
-			$scope.updateTicker(data,$scope.usdt_currencies);
-			$scope.displayCollection=[].concat($scope.usdt_currencies);
+			$scope.updateTicker(data,$scope.usdt_pcurrencies);
+			$scope.displayCollection=[].concat($scope.usdt_pcurrencies);
 		}		
         
     });
