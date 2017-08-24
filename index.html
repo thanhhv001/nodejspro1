@@ -61,7 +61,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr  ng-repeat="row in displayPBTCCollection" ng-change="test()">
+							<tr  ng-repeat="row in displayPBTCCollection" ng-change="test(this)">
 								<td>{{row.name | uppercase}}</td>
 								<td>{{row.last}}</td>
 								<td>{{row.baseVolume}}</td>
