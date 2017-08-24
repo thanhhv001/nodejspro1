@@ -4,6 +4,7 @@
 <head>  
   
   <link rel="stylesheet"  type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>	
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-smart-table/2.1.6/smart-table.min.js"></script>
   <script src="/socket.io/socket.io.js"></script>
@@ -39,38 +40,85 @@
 </head>
 
 <body ng-app="myApp">
-	<h1>Currencies Price Ticker</h1>
+	
 	<div class="container">
+		<div class="page-header">
+			<h1>Currencies Price Ticker</h1>
+		</div>
 		<div class="row">
 			<div class="col-xs-12 col-sm-6">
-				<div id="marketsContainer" ng-controller="MainCtrl" ng-init="init()">
-					<table id="table_btc" st-safe-src="btc_pcurrencies" st-table="displayPBTCCollection"   class="table table-striped">
-						<thead>
-							<tr>
-								<th st-sort="name">Coin</th>
-								<th st-sort="last">Price</th>
-								<th st-sort="baseVolume">Volumne</th>
-								<th st-sort="percentChange">Change</th>
-								<th>Lowest Ask</th>
-								<th>Hightest Bid</th>
-							</tr>
-							<tr>
-								<th colspan="6">
-									<input st-search="name"  class="form-control" type="search"/>
-								</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr  ng-repeat="row in displayPBTCCollection" >
-								<td>{{row.name | uppercase}}</td>
-								<td>{{row.last}}</td>
-								<td>{{row.baseVolume}}</td>
-								<td ng-class="precentColor(row.percentChange)">{{row.percentChange}}</td>
-								<td>{{row.lowestAsk}}</td>
-								<td>{{row.highestBid}}</td>
-							</tr>
-						</tbody>
-					</table>
+				<div id="marketsContainer" class="panel with-nav-tabs panel-default" ng-controller="MainCtrl" ng-init="init()">
+					<div class="panel-heading">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#btc_panel" data-toggle="tab">BTC</a></li>
+                            <li><a href="#usdt_panel" data-toggle="tab">USDT</a></li>
+                            
+                        </ul>
+					</div>
+					<div class="panel-body">
+						<div class="tab-content">
+							<div class="tab-pane fade in active" id="btc_panel">
+								<table id="table_btc" st-safe-src="btc_pcurrencies" st-table="displayPBTCCollection"   class="table table-striped">
+									<thead>
+										<tr>
+											<th st-sort="name">Coin</th>
+											<th st-sort="last">Price</th>
+											<th st-sort="baseVolume">Volumne</th>
+											<th st-sort="percentChange">Change</th>
+											<th>Lowest Ask</th>
+											<th>Hightest Bid</th>
+										</tr>
+										<tr>
+											<th colspan="6">
+												<input st-search="name"  class="form-control" type="search"/>
+											</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr  ng-repeat="row in displayPBTCCollection" >
+											<td>{{row.name | uppercase}}</td>
+											<td>{{row.last}}</td>
+											<td>{{row.baseVolume}}</td>
+											<td ng-class="precentColor(row.percentChange)">{{row.percentChange}}</td>
+											<td>{{row.lowestAsk}}</td>
+											<td>{{row.highestBid}}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div class="tab-pane fade" id="usdt_panel">
+								<table id="table_usdt" st-safe-src="usdt_pcurrencies" st-table="displayPUSDTCollection"   class="table table-striped">
+									<thead>
+										<tr>
+											<th st-sort="name">Coin</th>
+											<th st-sort="last">Price</th>
+											<th st-sort="baseVolume">Volumne</th>
+											<th st-sort="percentChange">Change</th>
+											<th>Lowest Ask</th>
+											<th>Hightest Bid</th>
+										</tr>
+										<tr>
+											<th colspan="6">
+												<input st-search="name"  class="form-control" type="search"/>
+											</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr  ng-repeat="row in displayPUSDTCollection" >
+											<td>{{row.name | uppercase}}</td>
+											<td>{{row.last}}</td>
+											<td>{{row.baseVolume}}</td>
+											<td ng-class="precentColor(row.percentChange)">{{row.percentChange}}</td>
+											<td>{{row.lowestAsk}}</td>
+											<td>{{row.highestBid}}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>							
+						</div>
+					</div>
+					
+					
 				</div>
 			</div>
 			<div class="col-xs-12 col-sm-6"></div>
@@ -145,8 +193,7 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 	$scope.updateTicker=function(data,currencies){
 	
 		var found = $filter('filter')(currencies, {currencyPair: data.currencyPair}, true);
-		if(found.length){
-			console.log("Update",data);
+		if(found.length){			
 			$scope.updatePrice(data,currencies);			
 		}else{			
 			currencies.push(data);
@@ -156,18 +203,19 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 	$scope.updatePrice=function(data,currencies){
 		//update price
 		angular.forEach(currencies, function(c, i) {
+		  var tableName= 'table_btc';	
           if (c.currencyPair === data.currencyPair ) {
             currencies[i] = data;
 			if(c.currencyPair.startsWith($scope.startwithBTC)){
-				if(parseFloat(c.last)>parseFloat(data.last)){					
-					$scope.highlight('table_btc',i,$scope.priceChangeDown);
-				}else{
-					$scope.highlight('table_btc',i,$scope.priceChangeUp);
-				}
-				
+				tableName='table_btc';							
 			}else{
-				$scope.highlight('table_btc',i);
-			}	
+				tableName='table_usdt';				
+			}
+			if(parseFloat(c.last)>parseFloat(data.last)){					
+				$scope.highlight(tableName,i,$scope.priceChangeDown);
+			}else{
+				$scope.highlight(tableName,i,$scope.priceChangeUp);
+			}			
           }
         });
 	}
@@ -178,7 +226,7 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 		row.classList.add(className);
 		$timeout(function(){
 			row.classList.remove(className);
-		},500);
+		},300);
 		console.log(row);
 	}
 	
@@ -217,8 +265,7 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
     socketio.on('disconnect', function() {
             console.log("Disconnected");    
     });		
-	
-	
+		
 }
 myApp.factory('socketio', function ($rootScope) {
     var socket = io.connect();
