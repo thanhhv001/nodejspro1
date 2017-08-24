@@ -4,7 +4,7 @@
 <head>  
   
   <link rel="stylesheet"  type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
   <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>	
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-smart-table/2.1.6/smart-table.min.js"></script>
@@ -42,13 +42,14 @@
 
 <body ng-app="myApp">
 	
-	<div class="container">
+	<div class="container-fluid">
 		<div class="page-header">
 			<h1>Currencies Price Ticker</h1>
 		</div>
 		<div class="row">
 			<div class="col-xs-12 col-sm-6">
-				<div id="marketsContainer" class="panel with-nav-tabs panel-default" ng-controller="MainCtrl" ng-init="init()">
+			
+				<div id="marketsContainer" class="panel with-nav-tabs panel-primary" ng-controller="MainCtrl" ng-init="init()">
 					<div class="panel-heading">
                         <ul class="nav nav-tabs">
                             <li class="active"><a href="#btc_panel" data-toggle="tab">BTC</a></li>
@@ -58,7 +59,7 @@
 					</div>
 					<div class="panel-body">
 						<div class="tab-content">
-							<div class="tab-pane fade in active" id="btc_panel">
+							<div class="table-responsive tab-pane fade in active" id="btc_panel">
 								<table id="table_btc" st-safe-src="btc_pcurrencies" st-table="displayPBTCCollection"   class="table table-striped">
 									<thead>
 										<tr>
@@ -87,7 +88,8 @@
 									</tbody>
 								</table>
 							</div>
-							<div class="tab-pane fade" id="usdt_panel">
+							
+							<div class="tab-pane fade table-responsive" id="usdt_panel">
 								<table id="table_usdt" st-safe-src="usdt_pcurrencies" st-table="displayPUSDTCollection"   class="table table-striped">
 									<thead>
 										<tr>
