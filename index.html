@@ -3,7 +3,7 @@
 
 <head>  
   
-  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet"  type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>	
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-smart-table/2.1.6/smart-table.min.js"></script>
   <script src="/socket.io/socket.io.js"></script>
@@ -28,12 +28,11 @@
 	  -moz-transition-duration: 0.1s;
 	  transition-duration: 0.1s; 
 	}
-	  
-	.st-sort-ascent:after{
+	.st-sort-ascent:before{
 		content:'\25B2'
 	}
-	.st-sort-descent:after{
-		content:'\25B2'
+	.st-sort-descent:before{
+		content:'\25BC'
 	}
   
   </style>
@@ -182,7 +181,14 @@ function MainCtrl($scope,socketio,$filter,commonService) {
     });
 	
     socketio.on('messages', function(data) {
-		return;
+		console.log(data);
+		angular.forEach(data, function(value,key){
+			console.log("value",value);
+			console.log("key",key);			
+			currency=$scope.buildCurrencyObject(value,key);
+			$scope.pushToListCurrenices(currency);				
+		});
+		/*
 		if(data.currencyPair.startsWith($scope.startwithBTC)){
 			console.log("BTC");
 			data.name=data.currencyPair.replace($scope.startwithBTC,"");			
@@ -193,7 +199,9 @@ function MainCtrl($scope,socketio,$filter,commonService) {
 			data.name=data.currencyPair.replace($scope.startwithUSDT,"");
 			$scope.updateTicker(data,$scope.usdt_pcurrencies);
 			$scope.displayCollection=[].concat($scope.usdt_pcurrencies);
-		}		
+		}
+		*/
+				
         
     });
 	
