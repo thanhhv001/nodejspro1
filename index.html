@@ -181,28 +181,22 @@ function MainCtrl($scope,socketio,$filter,commonService) {
     });
 	
     socketio.on('messages', function(data) {
-		console.log(data);
-		angular.forEach(data, function(value,key){
-			console.log("value",value);
-			console.log("key",key);			
-			currency=$scope.buildCurrencyObject(value,key);
-			$scope.pushToListCurrenices(currency);				
-		});
-		/*
-		if(data.currencyPair.startsWith($scope.startwithBTC)){
-			console.log("BTC");
-			data.name=data.currencyPair.replace($scope.startwithBTC,"");			
-			$scope.updateTicker(data,$scope.btc_pcurrencies);
-			$scope.displayCollection=[].concat($scope.btc_pcurrencies);
-		}else if(data.currencyPair.startsWith($scope.startwithUSDT)){
-			console.log("USDT");
-			data.name=data.currencyPair.replace($scope.startwithUSDT,"");
-			$scope.updateTicker(data,$scope.usdt_pcurrencies);
-			$scope.displayCollection=[].concat($scope.usdt_pcurrencies);
+		
+		var currency;
+		currency.currencyPair=data[0];
+		currency.last=data[1];
+		currency.baseVolume=data[5];
+		currency.percentChange=data[4];
+		currency.lowestAsk=data[2];
+		currency.highestBid=data[3];
+		console.log(currency);
+		if(data[0].startsWith($scope.startwithBTC)){
+			currency.name=key.replace($scope.startwithBTC,"");				
+		}else{
+			currency.name=key.replace($scope.startwithUSDT,"");
 		}
-		*/
-				
-        
+		$scope.pushToListCurrenices(currency);			
+				        
     });
 	
     socketio.on('disconnect', function() {
