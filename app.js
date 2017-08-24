@@ -40,7 +40,7 @@ app.post('/getPTicker',function(req, res, nex){
         response.on('end', function(){
             
             res.json(body);
-			console.log(body);
+			
         });
     }).on('error', function(e){
           console.log("Got an error: ", e);
