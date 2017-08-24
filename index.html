@@ -182,7 +182,7 @@ function MainCtrl($scope,socketio,$filter,commonService) {
 	
     socketio.on('messages', function(data) {
 		
-		var currency;
+		var currency={};
 		currency.currencyPair=data[0];
 		currency.last=data[1];
 		currency.baseVolume=data[5];
