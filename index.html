@@ -88,7 +88,7 @@ var myApp = angular.module('myApp', ['smart-table']);
 
 
 myApp.controller("MainCtrl", MainCtrl);
-function MainCtrl($scope,socketio,$filter,commonService) {
+function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 	$scope.btc_pcurrencies=[];
 	$scope.currencies=[];
 	$scope.usdt_pcurrencies=[];
@@ -97,6 +97,8 @@ function MainCtrl($scope,socketio,$filter,commonService) {
 	$scope.startwithUSDT="USDT_";
 	$scope.displayPBTCCollection = [];
 	$scope.displayPUSDTCollection = [];
+	$scope.priceChangeUp="priceChangeUp";
+	$scope.priceChangeDown="priceChangeDown";
 	$scope.init=function(){
 		$scope.getPTicker();
 	}
@@ -157,7 +159,12 @@ function MainCtrl($scope,socketio,$filter,commonService) {
           if (c.currencyPair === data.currencyPair ) {
             currencies[i] = data;
 			if(c.currencyPair.startsWith($scope.startwithBTC)){
-				$scope.highlight('table_btc',i);
+				if(parseFloat(c.last)>parseFloat(data.last)){					
+					$scope.highlight('table_btc',i,$scope.priceChangeDown);
+				}else{
+					scope.highlight('table_btc',i,$scope.priceChangeUp);
+				}
+				
 			}else{
 				$scope.highlight('table_btc',i);
 			}	
@@ -165,9 +172,13 @@ function MainCtrl($scope,socketio,$filter,commonService) {
         });
 	}
 	
-	$scope.highlight= function(id,index){
+	$scope.highlight= function(id,index, className){
 		var rows=document.getElementById(id).rows;
 		row = rows[index];
+		row.classList.add(className);
+		$timeout(function(){
+			row.classList.remove(className);
+		},1000);
 		console.log(row);
 	}
 	
