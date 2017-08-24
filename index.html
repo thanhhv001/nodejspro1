@@ -61,7 +61,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr  ng-repeat="row in displayPBTCCollection" ng-change="test(this)">
+							<tr  ng-repeat="row in displayPBTCCollection" >
 								<td>{{row.name | uppercase}}</td>
 								<td>{{row.last}}</td>
 								<td>{{row.baseVolume}}</td>
@@ -165,13 +165,13 @@ function MainCtrl($scope,socketio,$filter,commonService) {
         });
 	}
 	
-	$scope.highlight= function(elem,index){
-		
+	$scope.highlight= function(id,index){
+		var table=document.getElementById(id);
+		row = table.find('tr').eq(index);
+		console.log(row);
 	}
 	
-	$scope.test= function(elem){
-		console.log("herr",elem);
-	}
+	
 	
 	$scope.precentColor=function(value){
 		if(parseFloat(value)>0){
