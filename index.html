@@ -172,12 +172,13 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 	}
 	
 	$scope.highlight= function(id,index, className){
+		console.log("highlight");
 		var rows=document.getElementById(id).rows;
 		row = rows[index];
 		row.classList.add(className);
 		$timeout(function(){
 			row.classList.remove(className);
-		},200);
+		},500);
 		console.log(row);
 	}
 	
