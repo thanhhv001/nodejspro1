@@ -89,4 +89,17 @@ connection.onclose = function (a,b) {
 
 connection.open();
 
+//bittrex
+
+bittrex.getmarketsummaries( function( data, err ) {
+  if (err) {
+    return console.error(err);
+  }
+  for( var i in data.result ) {
+    bittrex.getticker( { market : data.result[i].MarketName }, function( ticker ) {
+      console.log( ticker );
+    });
+  }
+});
+
 
