@@ -44,7 +44,7 @@
 		<div class="row">
 			<div class="col-xs-12 col-sm-6">
 				<div id="marketsContainer" ng-controller="MainCtrl" ng-init="init()">
-					<table st-safe-src="btc_pcurrencies" st-table="displayCollection"   class="table table-striped">
+					<table id="table_btc" st-safe-src="btc_pcurrencies" st-table="displayPBTCCollection"   class="table table-striped">
 						<thead>
 							<tr>
 								<th st-sort="name">Coin</th>
@@ -61,11 +61,11 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr  ng-repeat="row in displayCollection">
+							<tr  ng-repeat="row in displayPBTCCollection" ng-change="test()">
 								<td>{{row.name | uppercase}}</td>
 								<td>{{row.last}}</td>
 								<td>{{row.baseVolume}}</td>
-								<td>{{row.percentChange}}</td>
+								<td ng-class="precentColor(row.percentChange)">{{row.percentChange}}</td>
 								<td>{{row.lowestAsk}}</td>
 								<td>{{row.highestBid}}</td>
 							</tr>
@@ -86,21 +86,6 @@
 
 var myApp = angular.module('myApp', ['smart-table']);
 
-myApp.controller('filterCtrl', ['$scope', '$filter', function (scope, filter) {
-    scope.rowCollection = [
-        {firstName: 'Laurent', lastName: 'Renard', birthDate: new Date('1987-05-21'), balance: 102, email: 'whatever@gmail.com', strictSearchValue: "abc", strictSelectValue: "ab"},
-        {firstName: 'Blandine', lastName: 'Faivre', birthDate: new Date('1987-04-25'), balance: -2323.22, email: 'oufblandou@gmail.com', strictSearchValue: "ab", strictSelectValue: "abc"},
-        {firstName: 'Francoise', lastName: 'Frere', birthDate: new Date('1955-08-27'), balance: 42343, email: 'raymondef@gmail.com', strictSearchValue: "abc", strictSelectValue: "abc"}
-    ];
-
-    scope.displayCollection = [].concat(scope.rowCollection);
-
-    scope.predicates = ['firstName', 'lastName', 'birthDate', 'balance', 'email'];
-    scope.selectedPredicate = scope.predicates[0];
-}]);
-
-
-
 
 myApp.controller("MainCtrl", MainCtrl);
 function MainCtrl($scope,socketio,$filter,commonService) {
@@ -110,8 +95,8 @@ function MainCtrl($scope,socketio,$filter,commonService) {
 	
 	$scope.startwithBTC="BTC_";
 	$scope.startwithUSDT="USDT_";
-	$scope.displayCollection = [];
-	
+	$scope.displayPBTCCollection = [];
+	$scope.displayPUSDTCollection = [];
 	$scope.init=function(){
 		$scope.getPTicker();
 	}
@@ -121,10 +106,11 @@ function MainCtrl($scope,socketio,$filter,commonService) {
 		if(currency.currencyPair.startsWith($scope.startwithBTC)){
 			console.log("BTC");					
 			$scope.updateTicker(currency,$scope.btc_pcurrencies);
-			$scope.displayCollection=$scope.btc_pcurrencies;
+			$scope.displayPBTCCollection=$scope.btc_pcurrencies;
 		}else if(currency.currencyPair.startsWith($scope.startwithUSDT)){
 			console.log("USDT");			
-			$scope.updateTicker(currency,$scope.usdt_pcurrencies);			
+			$scope.updateTicker(currency,$scope.usdt_pcurrencies);	
+			$scope.displayPUSDTCollection=$scope.usdt_pcurrencies;			
 		}	
 	}
 	
@@ -148,7 +134,7 @@ function MainCtrl($scope,socketio,$filter,commonService) {
 				currency=$scope.buildCurrencyObject(value,key);
 				$scope.pushToListCurrenices(currency);				
 			});
-			//$scope.displayCollection= [].concat($scope.btc_pcurrencies);
+			//$scope.displayPBTCCollection= [].concat($scope.btc_pcurrencies);
 		},function(error){
 			console.log(error);
 		})
@@ -170,18 +156,36 @@ function MainCtrl($scope,socketio,$filter,commonService) {
 		angular.forEach(currencies, function(c, i) {
           if (c.currencyPair === data.currencyPair ) {
             currencies[i] = data;
-			found=true;	
+			if(c.currencyPair.startsWith($scope.startwithBTC)){
+				$scope.highlight('table_btc',i);
+			}else{
+				$scope.highlight('table_btc',i);
+			}	
           }
         });
 	}
 	
+	$scope.highlight= function(elem,index){
+		
+	}
+	
+	$scope.test= function(elem){
+		console.log("herr",elem);
+	}
+	
+	$scope.precentColor=function(value){
+		if(parseFloat(value)>0){
+			return "text-success";
+		}else{
+			return "text-danger";
+		}
+	}
 	
     socketio.on('connect', function () {
 	    console.log("Connected");	
     });
 	
-    socketio.on('messages', function(data) {
-		
+    socketio.on('messages', function(data) {		
 		var currency={};
 		currency.currencyPair=data[0];
 		currency.last=data[1];
@@ -189,7 +193,7 @@ function MainCtrl($scope,socketio,$filter,commonService) {
 		currency.percentChange=data[4];
 		currency.lowestAsk=data[2];
 		currency.highestBid=data[3];
-		console.log(currency);
+		
 		if(data[0].startsWith($scope.startwithBTC)){
 			currency.name=data[0].replace($scope.startwithBTC,"");				
 		}else{
@@ -201,7 +205,9 @@ function MainCtrl($scope,socketio,$filter,commonService) {
 	
     socketio.on('disconnect', function() {
             console.log("Disconnected");    
-     });		
+    });		
+	
+	
 }
 myApp.factory('socketio', function ($rootScope) {
     var socket = io.connect();
