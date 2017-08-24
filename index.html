@@ -28,10 +28,10 @@
 	  -moz-transition-duration: 0.1s;
 	  transition-duration: 0.1s; 
 	}
-	.st-sort-ascent:before{
+	.st-sort-ascent:after{
 		content:'\25B2'
 	}
-	.st-sort-descent:before{
+	.st-sort-descent:after{
 		content:'\25BC'
 	}
   
@@ -145,7 +145,8 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 	$scope.updateTicker=function(data,currencies){
 	
 		var found = $filter('filter')(currencies, {currencyPair: data.currencyPair}, true);
-		if(found.length){			
+		if(found.length){
+			console.log("Update",data);
 			$scope.updatePrice(data,currencies);			
 		}else{			
 			currencies.push(data);
@@ -172,7 +173,6 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 	}
 	
 	$scope.highlight= function(id,index, className){
-		console.log("highlight");
 		var rows=document.getElementById(id).rows;
 		row = rows[index];
 		row.classList.add(className);
