@@ -346,6 +346,10 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 		$scope.pushToListCurrenices(currency);			
 				        
     });
+    
+    socketio.on('bittrexmessages',function(data){
+		console.log(data);
+	});	
 	
     socketio.on('disconnect', function() {
             console.log("Disconnected");    
