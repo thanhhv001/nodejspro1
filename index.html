@@ -121,7 +121,7 @@ function MainCtrl($scope,socketio,$filter,commonService) {
 		if(currency.currencyPair.startsWith($scope.startwithBTC)){
 			console.log("BTC");					
 			$scope.updateTicker(currency,$scope.btc_pcurrencies);
-			
+			$scope.displayCollection=$scope.btc_pcurrencies;
 		}else if(currency.currencyPair.startsWith($scope.startwithUSDT)){
 			console.log("USDT");			
 			$scope.updateTicker(currency,$scope.usdt_pcurrencies);			
