@@ -106,11 +106,11 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 	$scope.pushToListCurrenices=function(currency){
 					
 		if(currency.currencyPair.startsWith($scope.startwithBTC)){
-			console.log("BTC");					
+								
 			$scope.updateTicker(currency,$scope.btc_pcurrencies);
 			$scope.displayPBTCCollection=$scope.btc_pcurrencies;
 		}else if(currency.currencyPair.startsWith($scope.startwithUSDT)){
-			console.log("USDT");			
+					
 			$scope.updateTicker(currency,$scope.usdt_pcurrencies);	
 			$scope.displayPUSDTCollection=$scope.usdt_pcurrencies;			
 		}	
@@ -147,8 +147,7 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 		var found = $filter('filter')(currencies, {currencyPair: data.currencyPair}, true);
 		if(found.length){			
 			$scope.updatePrice(data,currencies);			
-		}else{
-			console.log("New");
+		}else{			
 			currencies.push(data);
 		}
 		
@@ -162,7 +161,7 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 				if(parseFloat(c.last)>parseFloat(data.last)){					
 					$scope.highlight('table_btc',i,$scope.priceChangeDown);
 				}else{
-					scope.highlight('table_btc',i,$scope.priceChangeUp);
+					$scope.highlight('table_btc',i,$scope.priceChangeUp);
 				}
 				
 			}else{
@@ -178,7 +177,7 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 		row.classList.add(className);
 		$timeout(function(){
 			row.classList.remove(className);
-		},1000);
+		},200);
 		console.log(row);
 	}
 	
