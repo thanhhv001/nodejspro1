@@ -191,9 +191,9 @@ function MainCtrl($scope,socketio,$filter,commonService) {
 		currency.highestBid=data[3];
 		console.log(currency);
 		if(data[0].startsWith($scope.startwithBTC)){
-			currency.name=key.replace($scope.startwithBTC,"");				
+			currency.name=data[0].replace($scope.startwithBTC,"");				
 		}else{
-			currency.name=key.replace($scope.startwithUSDT,"");
+			currency.name=data[0].replace($scope.startwithUSDT,"");
 		}
 		$scope.pushToListCurrenices(currency);			
 				        
