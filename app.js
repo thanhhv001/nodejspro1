@@ -91,15 +91,14 @@ connection.open();
 
 //bittrex
 
+//bittrex
+
 bittrex.getmarketsummaries( function( data, err ) {
   if (err) {
     return console.error(err);
   }
-  for( var i in data.result ) {
-    bittrex.getticker( { market : data.result[i].MarketName }, function( ticker ) {
-      console.log( ticker );
-    });
-  }
+  io.emit('bittrexmessages', data.result);
+  
 });
 
 
