@@ -166,8 +166,8 @@ function MainCtrl($scope,socketio,$filter,commonService) {
 	}
 	
 	$scope.highlight= function(id,index){
-		var table=document.getElementById(id);
-		row = JQuery('#table_btc').find('tr').eq(index);
+		var rows=document.getElementById(id).rows;
+		row = rows[index];
 		console.log(row);
 	}
 	
