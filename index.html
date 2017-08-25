@@ -126,12 +126,11 @@
 		<div class="page-header">
 			<h1>Currencies Price Ticker</h1>
 		</div>
-		<div class="row">
-			<div class="col-xs-12 col-sm-6">
-				<div class="page-header">
-					<h2>POLONIEX</h2>
-				</div>
-				<div id="marketsContainer" class="panel with-nav-tabs panel-primary" ng-controller="MainCtrl" ng-init="init()">
+		<div class="row" ng-controller="MainCtrl" ng-init="init()">
+			<div class="col-xs-12 col-sm-6">				
+				<h2>POLONIEX</h2>
+				<hr>
+				<div id="marketsContainer" class="marketsContainer panel with-nav-tabs panel-primary" >
 					<div class="panel-heading">
                         <ul class="nav nav-tabs">
                             <li class="active"><a href="#btc_panel" data-toggle="tab">BTC</a></li>
@@ -206,7 +205,81 @@
 					
 				</div>
 			</div>
-			<div class="col-xs-12 col-sm-6"></div>
+			<div class="col-xs-12 col-sm-6">
+				<h2>BITTREX</h2>
+				<hr>
+				<div class="marketsContainer panel with-nav-tabs panel-primary">
+					<div class="panel-heading">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#btc_panel" data-toggle="tab">BTC</a></li>
+                            <li><a href="#usdt_panel" data-toggle="tab">USDT</a></li>
+                            
+                        </ul>
+					</div>
+					<div class="panel-body">
+						<div class="tab-content">
+							<div class="scrollbar table-responsive tab-pane fade in active" id="btc_panel">
+								<table id="table_btc" st-safe-src="btc_bcurrencies" st-table="displayBBTCCollection"   class="table table-striped">
+									<thead>
+										<tr>
+											<th st-sort="name">Coin</th>
+											<th st-sort="last">Price</th>
+											<th st-sort="baseVolume">Volumne</th>
+											<th st-sort="percentChange">Change</th>
+											<th>Lowest Ask</th>
+											<th>Hightest Bid</th>
+										</tr>
+										<tr>
+											<th colspan="6">
+												<input st-search="name"  class="form-control" type="search"/>
+											</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr  ng-repeat="row in displayPBTCCollection" >
+											<td>{{row.name | uppercase}}</td>
+											<td>{{row.last}}</td>
+											<td>{{row.baseVolume}}</td>
+											<td ng-class="precentColor(row.percentChange)">{{row.percentChange}}</td>
+											<td>{{row.lowestAsk}}</td>
+											<td>{{row.highestBid}}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							
+							<div class="tab-pane fade table-responsive" id="usdt_panel">
+								<table id="table_usdt" st-safe-src="usdt_bcurrencies" st-table="displayBUSDTCollection"   class="table table-striped">
+									<thead>
+										<tr>
+											<th st-sort="name">Coin</th>
+											<th st-sort="last">Price</th>
+											<th st-sort="baseVolume">Volumne</th>
+											<th st-sort="percentChange">Change</th>
+											<th>Lowest Ask</th>
+											<th>Hightest Bid</th>
+										</tr>
+										<tr>
+											<th colspan="6">
+												<input st-search="name"  class="form-control" type="search"/>
+											</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr  ng-repeat="row in displayPUSDTCollection" >
+											<td>{{row.name | uppercase}}</td>
+											<td>{{row.last}}</td>
+											<td>{{row.baseVolume}}</td>
+											<td ng-class="precentColor(row.percentChange)">{{row.percentChange}}</td>
+											<td>{{row.lowestAsk}}</td>
+											<td>{{row.highestBid}}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>							
+						</div>
+				</div>
+			</div>
 		</div> 
 	</div>
 	
@@ -237,22 +310,38 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 	
 	$scope.priceChangeUp="priceChangeUp";
 	$scope.priceChangeDown="priceChangeDown";
+	
+	$scope.BITTREX=1;
+	$scope.POLONIEX=2;
+	
 	$scope.init=function(){
 		$scope.getPTicker();
 		$scope.getBTicker()
 	}
 	
-	$scope.pushToListCurrenices=function(currency){
-					
-		if(currency.currencyPair.startsWith($scope.startwithBTC)){
-								
-			$scope.updateTicker(currency,$scope.btc_pcurrencies);
-			$scope.displayPBTCCollection=$scope.btc_pcurrencies;
-		}else if(currency.currencyPair.startsWith($scope.startwithUSDT)){
-					
-			$scope.updateTicker(currency,$scope.usdt_pcurrencies);	
-			$scope.displayPUSDTCollection=$scope.usdt_pcurrencies;			
+	$scope.pushToListCurrenices=function(currency,market){
+		switch(market){
+			case $scope.BITTREX:
+				if(currency.currencyPair.startsWith($scope.startwithBTC)){								
+					$scope.updateTicker(currency,$scope.btc_bcurrencies);
+					$scope.displayBBTCCollection=$scope.btc_bcurrencies;
+				}else if(currency.currencyPair.startsWith($scope.startwithUSDT)){						
+					$scope.updateTicker(currency,$scope.usdt_bcurrencies);	
+					$scope.displayBUSDTCollection=$scope.usdt_bcurrencies;			
+				}	
+				break;
+			case $scope.POLONIEX:
+				if(currency.currencyPair.startsWith($scope.startwithBTC)){								
+					$scope.updateTicker(currency,$scope.btc_pcurrencies);
+					$scope.displayPBTCCollection=$scope.btc_pcurrencies;
+				}else if(currency.currencyPair.startsWith($scope.startwithUSDT)){						
+					$scope.updateTicker(currency,$scope.usdt_pcurrencies);	
+					$scope.displayPUSDTCollection=$scope.usdt_pcurrencies;			
+				}	
+				break;
+		
 		}	
+		
 	}
 	
 	$scope.buildPCurrencyObject=function(value, key){
@@ -274,6 +363,9 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 		c.percentChange=0;
 		c.lowestAsk=currency.Low;
 		c.highestBid=currency.High;
+		c.ask=currency.Ask;
+		c.bid=currency.Bid;
+		c.last=currency.Last;
 		return c;
 	}
 	
@@ -282,8 +374,8 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 		commonService.ajaxRequest(url).then(function(response){			
 			var data = JSON.parse(response.data);
 			angular.forEach(data, function(value,key){
-				currency=$scope.buildPCurrencyObject(value,key);
-				$scope.pushToListCurrenices(currency);				
+				var currency=$scope.buildPCurrencyObject(value,key);
+				$scope.pushToListCurrenices(currency,$scope.POLONIEX);				
 			});
 			
 		},function(error){
@@ -296,8 +388,8 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 		commonService.ajaxRequest(url).then(function(response){			
 			var data = JSON.parse(response.data);
 			angular.forEach(data.result, function(c) {
-				var t=$scope.buildBCurrencyObject(c);
-				console.log(t);
+				var currency==$scope.buildBCurrencyObject(c);
+				$scope.pushToListCurrenices(currency,$scope.BITTREX);
 			})
 						
 		},function(error){
@@ -373,7 +465,7 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 		}else{
 			currency.name=data[0].replace($scope.startwithUSDT,"");
 		}
-		$scope.pushToListCurrenices(currency);			
+		$scope.pushToListCurrenices(currency,$scope.POLONIEX);			
 				        
     });
     
