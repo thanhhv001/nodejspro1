@@ -222,14 +222,19 @@ var myApp = angular.module('myApp', ['smart-table']);
 
 myApp.controller("MainCtrl", MainCtrl);
 function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
-	$scope.btc_pcurrencies=[];
-	$scope.currencies=[];
+	$scope.btc_pcurrencies=[];	
 	$scope.usdt_pcurrencies=[];
+	$scope.btc_bcurrencies=[];
+	$scope.usdt_bcurrencies=[];
 	
 	$scope.startwithBTC="BTC_";
 	$scope.startwithUSDT="USDT_";
+	
 	$scope.displayPBTCCollection = [];
 	$scope.displayPUSDTCollection = [];
+	$scope.displayBBTCCollection = [];
+	$scope.displayBUSDTCollection = [];
+	
 	$scope.priceChangeUp="priceChangeUp";
 	$scope.priceChangeDown="priceChangeDown";
 	$scope.init=function(){
@@ -250,7 +255,7 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 		}	
 	}
 	
-	$scope.buildCurrencyObject=function(value, key){
+	$scope.buildPCurrencyObject=function(value, key){
 		
 		if(key.startsWith($scope.startwithBTC)){
 			value.name=key.replace($scope.startwithBTC,"");				
@@ -262,15 +267,19 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 		return value;
 	}
 	
+	$scope.buildBCurrencyObject=function(currency){
+		
+	}
+	
 	$scope.getPTicker=function(){
 		var url='/getPTicker';
 		commonService.ajaxRequest(url).then(function(response){			
 			var data = JSON.parse(response.data);
 			angular.forEach(data, function(value,key){
-				currency=$scope.buildCurrencyObject(value,key);
+				currency=$scope.buildPCurrencyObject(value,key);
 				$scope.pushToListCurrenices(currency);				
 			});
-			//$scope.displayPBTCCollection= [].concat($scope.btc_pcurrencies);
+			
 		},function(error){
 			console.log(error);
 		})
@@ -280,8 +289,10 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 		var url='/getBTicker';
 		commonService.ajaxRequest(url).then(function(response){			
 			var data = JSON.parse(response.data);
-			console.log(data);
-			//$scope.displayPBTCCollection= [].concat($scope.btc_pcurrencies);
+			angular.forEach(data.result, function(c, i) {
+				console.log(c);
+			})
+						
 		},function(error){
 			console.log(error);
 		})
@@ -324,7 +335,7 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 		$timeout(function(){
 			row.classList.remove(className);
 		},200);
-		console.log(row);
+		
 	}
 	
 	
@@ -359,7 +370,7 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 				        
     });
     
-    socketio.on('bittrexmessages',function(data){
+    socketio.on('bittrexMessages',function(data){
 		console.log(data);
 	});	
 	
