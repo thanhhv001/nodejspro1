@@ -57,8 +57,7 @@ function getTicker(req, res, nex,url){
     }).on('error', function(e){
           console.log("Got an error: ", e);
           res.json(e);
-    });
-})	
+    });	
 }
 var port = 3000;
 server.listen(process.env.PORT || port);
