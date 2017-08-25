@@ -32,7 +32,19 @@ app.get('/', function (req, res, next) {
 app.post('/getPTicker',function(req, res, nex){
 	var url = 'https://poloniex.com/public?command=returnTicker';
     var body = '';
-    https.get(url, function(response){
+    getTicker(req, res, nex,url);
+})
+
+app.post('/getBTicker',function(req, res, nex){
+	var url = 'https://bittrex.com/api/v1.1/public/getmarketsummaries';
+    var body = '';
+    getTicker(req, res, nex,url);
+	
+})
+
+function getTicker(req, res, nex,url){
+	var body = '';
+	https.get(url, function(response){
         response.on('data', function(chunk){
             body += chunk;
         });
@@ -40,18 +52,19 @@ app.post('/getPTicker',function(req, res, nex){
         response.on('end', function(){
             
             res.json(body);
-			
+			console.log(body);
         });
     }).on('error', function(e){
           console.log("Got an error: ", e);
           res.json(e);
     });
-})
-
+})	
+}
 var port = 3000;
 server.listen(process.env.PORT || port);
 //Polo get ticker
 io.on('connection', function (client) {
+	
     console.log('Client connected...');
 
     client.on('join', function (data) {
@@ -65,6 +78,8 @@ io.on('connection', function (client) {
     client.on('tradeCoin',function(data){
         io.emit('BTC_XMR',data);
     });
+	
+	
 });
 
 connection.onopen = function (session) {
@@ -91,13 +106,11 @@ connection.open();
 
 //bittrex
 
-//bittrex
-
 bittrex.getmarketsummaries( function( data, err ) {
   if (err) {
     return console.error(err);
   }
-  io.emit('bittrexmessages', data.result);
+  io.emit('bittrexMessages', data.result);
   
 });
 
