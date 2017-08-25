@@ -388,7 +388,7 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 		commonService.ajaxRequest(url).then(function(response){			
 			var data = JSON.parse(response.data);
 			angular.forEach(data.result, function(c) {
-				var currency==$scope.buildBCurrencyObject(c);
+				var currency=$scope.buildBCurrencyObject(c);
 				$scope.pushToListCurrenices(currency,$scope.BITTREX);
 			})
 						
