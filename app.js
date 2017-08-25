@@ -114,6 +114,7 @@ bittrex.getmarketsummaries( function( data, err ) {
       console.log( ticker );
     });
   }
+  io.emit('bittrexMessages', data);
 });
 
 
