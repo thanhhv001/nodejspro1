@@ -234,6 +234,7 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 	$scope.priceChangeDown="priceChangeDown";
 	$scope.init=function(){
 		$scope.getPTicker();
+		$scope.getBTicker()
 	}
 	
 	$scope.pushToListCurrenices=function(currency){
@@ -269,6 +270,17 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 				currency=$scope.buildCurrencyObject(value,key);
 				$scope.pushToListCurrenices(currency);				
 			});
+			//$scope.displayPBTCCollection= [].concat($scope.btc_pcurrencies);
+		},function(error){
+			console.log(error);
+		})
+	}
+	
+	$scope.getBTicker=function(){
+		var url='/getBTicker';
+		commonService.ajaxRequest(url).then(function(response){			
+			var data = JSON.parse(response.data);
+			console.log(data);
 			//$scope.displayPBTCCollection= [].concat($scope.btc_pcurrencies);
 		},function(error){
 			console.log(error);
