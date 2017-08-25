@@ -109,8 +109,11 @@ bittrex.getmarketsummaries( function( data, err ) {
   if (err) {
     return console.error(err);
   }
-  io.emit('bittrexMessages', data.result);
-  
+  for( var i in data.result ) {
+    bittrex.getticker( { market : data.result[i].MarketName }, function( ticker ) {
+      console.log( ticker );
+    });
+  }
 });
 
 
