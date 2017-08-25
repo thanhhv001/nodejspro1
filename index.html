@@ -268,7 +268,13 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 	}
 	
 	$scope.buildBCurrencyObject=function(currency){
-		
+		var c={};
+		c.currencyPair=currency.MarketName;		
+		c.baseVolume=parseFloat(currency.Volume) ;
+		c.percentChange=0;
+		c.lowestAsk=currency.Low;
+		c.highestBid=currency.High;
+		return c;
 	}
 	
 	$scope.getPTicker=function(){
@@ -289,8 +295,9 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 		var url='/getBTicker';
 		commonService.ajaxRequest(url).then(function(response){			
 			var data = JSON.parse(response.data);
-			angular.forEach(data.result, function(c, i) {
-				console.log(c);
+			angular.forEach(data.result, function(c) {
+				var t=$scope.buildBCurrencyObject(c);
+				console.log(t);
 			})
 						
 		},function(error){
