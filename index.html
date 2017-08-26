@@ -364,7 +364,7 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 		var c={};
 		c.currencyPair=currency.MarketName.replace("-","_");		
 		c.baseVolume=parseFloat(currency.Volume) ;
-		c.percentChange=(((parseFloat(currency.Last)-parseFloat(currency.PrevDay))/parseFloat(currency.Last))*100).toFixed(4);
+		c.percentChange=(((parseFloat(currency.Last)-parseFloat(currency.PrevDay))/parseFloat(currency.PrevDay))*100).toFixed(4);
 		c.lowestAsk=currency.Low;
 		c.highestBid=currency.High;
 		c.ask=currency.Ask;
