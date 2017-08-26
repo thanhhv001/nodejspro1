@@ -355,7 +355,7 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 		}
 		value.currencyPair=key;
 		value.last=value.last;
-		value.percentChange=parseFloat(value.percentChange*100).toFixed(4);
+		value.percentChange=parseFloat(value.percentChange)*100;
 		value.baseVolume=parseFloat(value.baseVolume);
 		return value;
 	}
@@ -364,7 +364,7 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 		var c={};
 		c.currencyPair=currency.MarketName.replace("-","_");		
 		c.baseVolume=parseFloat(currency.Volume) ;
-		c.percentChange=(((parseFloat(currency.Last)-parseFloat(currency.PrevDay))/parseFloat(currency.PrevDay))*100).toFixed(4);
+		c.percentChange=(((parseFloat(currency.Last)-parseFloat(currency.PrevDay))/parseFloat(currency.PrevDay))*100);
 		c.lowestAsk=currency.Low;
 		c.highestBid=currency.High;
 		c.ask=currency.Ask;
@@ -422,21 +422,31 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 			switch(market){
 			case $scope.BITTREX:				
 				if(c.currencyPair.startsWith($scope.startwithBTC)){
-					tableName='btable_btc';	
-					$scope.displayBBTCCollection[i]=data;
+					tableName='btable_btc';
+					if(typeof $scope.displayBBTCCollection[i] !=="undefined"){
+						$scope.displayBBTCCollection[i]=data;
+					}
 				}else{
 					tableName='btable_usdt';
-					$scope.displayBUSDTCollection[i]=data;	
+					if(typeof $scope.displayBUSDTCollection[i] !=="undefined"){
+						$scope.displayBUSDTCollection[i]=data;	
+					}
 				}
 				break;
 			case $scope.POLONIEX:
 				console.log("POLONIEX")
 				if(c.currencyPair.startsWith($scope.startwithBTC)){
 					tableName='ptable_btc';	
-					$scope.displayPBTCCollection[i]=data;
+					if(typeof $scope.displayPBTCCollection[i] !=="undefined"){
+						$scope.displayPBTCCollection[i]=data;
+					}
+					
 				}else{
 					tableName='ptable_usdt';
-					$scope.displayPUSDTCollection[i]=data;	
+					if(typeof $scope.displayPUSDTCollection[i] !=="undefined"){
+						$scope.displayPUSDTCollection[i]=data;	
+					}
+					
 				}
 				break;
 			default:
@@ -454,7 +464,7 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 	}
 	
 	$scope.highlight= function(id,index, className){
-		console.log(className);
+		
 		var rows=document.getElementById(id).rows;
 		if(typeof row ==="undefined"){
 			return false;
@@ -487,7 +497,7 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 		currency.currencyPair=data[0];
 		currency.last=data[1];
 		currency.baseVolume=parseFloat(data[5]);
-		currency.percentChange=parseFloat(data[4]*100).toFixed(4);
+		currency.percentChange=parseFloat(data[4])*100;
 		currency.lowestAsk=data[2];
 		currency.highestBid=data[3];
 		
