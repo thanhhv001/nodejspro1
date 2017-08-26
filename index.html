@@ -11,11 +11,11 @@
   <script src="/socket.io/socket.io.js"></script>
 	
   <style>
-	#marketsContainer table thead tr th:hover{
+	.marketsContainer table thead tr th:hover{
 		cursor:pointer;
 	}
 	  
-	#marketsContainer tr.priceChangeUp td 
+	.marketsContainer tr.priceChangeUp td 
 	{
 	  background-color: #ceebd3 !important;
 	  border-top: 1px double #27892f;
@@ -25,7 +25,7 @@
 	  transition-duration: 0.1s; 
 	}
 	
-	#marketsContainer tr.priceChangeDown td 
+	.marketsContainer tr.priceChangeDown td 
 	{
 	  background-color: #f6d4d1 !important;
 	  border-top: 1px double #c02a1d;
@@ -93,20 +93,20 @@
 	height: 600px;	
 	overflow-y: scroll;	
 }
-#btc_panel::-webkit-scrollbar-track
+.btc_panel::-webkit-scrollbar-track
 {
 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.1);
 	background-color: #F5F5F5;
 	border-radius: 10px;
 }
 
-#btc_panel::-webkit-scrollbar
+.btc_panel::-webkit-scrollbar
 {
 	width: 10px;
 	background-color: #F5F5F5;
 }
 
-#btc_panel::-webkit-scrollbar-thumb
+.btc_panel::-webkit-scrollbar-thumb
 {
 	border-radius: 10px;
 	background-color: #FFF;
@@ -140,7 +140,7 @@
 					</div>
 					<div class="panel-body">
 						<div class="tab-content">
-							<div class="scrollbar table-responsive tab-pane fade in active" id="btc_panel">
+							<div class="scrollbar table-responsive tab-pane fade in active btc_panel" id="btc_panel">
 								<table id="table_btc" st-safe-src="btc_pcurrencies" st-table="displayPBTCCollection"   class="table table-striped">
 									<thead>
 										<tr>
@@ -218,7 +218,7 @@
 					</div>
 					<div class="panel-body">
 						<div class="tab-content">
-							<div class="scrollbar table-responsive tab-pane fade in active" id="bbtc_panel">
+							<div class="scrollbar table-responsive tab-pane fade in active btc_panel" id="bbtc_panel">
 								<table id="table_btc" st-safe-src="btc_bcurrencies" st-table="displayBBTCCollection"   class="table table-striped">
 									<thead>
 										<tr>
