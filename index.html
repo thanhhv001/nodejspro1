@@ -325,19 +325,19 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 			case $scope.BITTREX:				
 				if(currency.currencyPair.startsWith($scope.startwithBTC)){								
 					$scope.updateTicker(currency,$scope.btc_bcurrencies, $scope.BITTREX);
-					$scope.displayBBTCCollection=$scope.btc_bcurrencies;
+					//$scope.displayBBTCCollection=$scope.btc_bcurrencies;
 				}else if(currency.currencyPair.startsWith($scope.startwithUSDT)){						
 					$scope.updateTicker(currency,$scope.usdt_bcurrencies, $scope.BITTREX);	
-					$scope.displayBUSDTCollection=$scope.usdt_bcurrencies;			
+					//$scope.displayBUSDTCollection=$scope.usdt_bcurrencies;			
 				}	
 				break;
 			case $scope.POLONIEX:
 				if(currency.currencyPair.startsWith($scope.startwithBTC)){								
 					$scope.updateTicker(currency,$scope.btc_pcurrencies,$scope.POLONIEX);
-					$scope.displayPBTCCollection=$scope.btc_pcurrencies;
+					//$scope.displayPBTCCollection=$scope.btc_pcurrencies;
 				}else if(currency.currencyPair.startsWith($scope.startwithUSDT)){						
 					$scope.updateTicker(currency,$scope.usdt_pcurrencies,$scope.POLONIEX);	
-					$scope.displayPUSDTCollection=$scope.usdt_pcurrencies;			
+					//$scope.displayPUSDTCollection=$scope.usdt_pcurrencies;			
 				}	
 				break;
 			default:
@@ -416,24 +416,33 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 		//update price
 		angular.forEach(currencies, function(c, i) {
 		  var tableName= '';	
-		  switch(market){
-			case $scope.BITTREX:
-				tableName='b';
+		  
+          if (c.currencyPair === data.currencyPair ) {
+			currencies[i] = data;
+			switch(market){
+			case $scope.BITTREX:				
+				if(c.currencyPair.startsWith($scope.startwithBTC)){
+					tableName='btable_btc';	
+					$scope.displayBBTCCollection[i]=data;
+				}else{
+					tableName='btable_usdt';
+					$scope.displayBUSDTCollection[i]=data;	
+				}
 				break;
 			case $scope.POLONIEX:
-				tableName='p';
+				if(c.currencyPair.startsWith($scope.startwithBTC)){
+					tableName='ptable_btc';	
+					$scope.displayPBTCCollection[i]=data;
+				}else{
+					tableName='ptable_usdt';
+					$scope.displayPUSDTCollection[i]=data;	
+				}
 				break;
 			default:
 				tableName='p';
 				break;
-		  }
-          if (c.currencyPair === data.currencyPair ) {
-            currencies[i] = data;
-			if(c.currencyPair.startsWith($scope.startwithBTC)){
-				tableName+='table_btc';							
-			}else{
-				tableName+='table_usdt';				
 			}
+			            		
 			if(parseFloat(c.last)>parseFloat(data.last)){					
 				$scope.highlight(tableName,i,$scope.priceChangeDown);
 			}else{
@@ -483,7 +492,7 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 			currency.name=data[0].replace($scope.startwithUSDT,"");
 		}
 		$scope.pushToListCurrenices(currency,$scope.POLONIEX);			
-		//console.log(currency);			        
+		console.log(currency);			        
     });
     
     socketio.on('bittrexMessages',function(data){		
