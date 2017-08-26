@@ -354,8 +354,8 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 			value.name=key.replace($scope.startwithUSDT,"");
 		}
 		value.currencyPair=key;
-		value.last=parseFloat(value.last);
-		value.percentChange=parseFloat(value.percentChange*100);
+		value.last=value.last;
+		value.percentChange=parseFloat(value.percentChange*100).toFixed(4);
 		value.baseVolume=parseFloat(value.baseVolume);
 		return value;
 	}
@@ -364,7 +364,7 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 		var c={};
 		c.currencyPair=currency.MarketName.replace("-","_");		
 		c.baseVolume=parseFloat(currency.Volume) ;
-		c.percentChange=((parseFloat(currency.Last)-parseFloat(currency.PrevDay))/parseFloat(currency.Last))*100;
+		c.percentChange=(((parseFloat(currency.Last)-parseFloat(currency.PrevDay))/parseFloat(currency.Last))*100).toFixed(4);
 		c.lowestAsk=currency.Low;
 		c.highestBid=currency.High;
 		c.ask=currency.Ask;
@@ -430,6 +430,7 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 				}
 				break;
 			case $scope.POLONIEX:
+				console.log("POLONIEX")
 				if(c.currencyPair.startsWith($scope.startwithBTC)){
 					tableName='ptable_btc';	
 					$scope.displayPBTCCollection[i]=data;
@@ -480,9 +481,9 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 		
 		var currency={};
 		currency.currencyPair=data[0];
-		currency.last=parseFloat(data[1]);
+		currency.last=data[1];
 		currency.baseVolume=parseFloat(data[5]);
-		currency.percentChange=parseFloat(data[4]*100);
+		currency.percentChange=parseFloat(data[4]*100).toFixed(4);
 		currency.lowestAsk=data[2];
 		currency.highestBid=data[3];
 		
@@ -492,7 +493,7 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 			currency.name=data[0].replace($scope.startwithUSDT,"");
 		}
 		$scope.pushToListCurrenices(currency,$scope.POLONIEX);			
-		console.log(currency);			        
+			        
     });
     
     socketio.on('bittrexMessages',function(data){		
