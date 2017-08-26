@@ -368,6 +368,7 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 		c.ask=currency.Ask;
 		c.bid=currency.Bid;
 		c.last=currency.Last;
+		c.name= c.currencyPair.startsWith($scope.startwithBTC)?  c.currencyPair.replace($scope.startwithBTC,"") : c.currencyPair.replace($scope.startwithUSDT,"");
 		return c;
 	}
 	
