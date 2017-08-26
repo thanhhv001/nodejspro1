@@ -434,7 +434,7 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 				}
 				break;
 			case $scope.POLONIEX:
-				console.log("POLONIEX")
+				
 				if(c.currencyPair.startsWith($scope.startwithBTC)){
 					tableName='ptable_btc';	
 					if(typeof $scope.displayPBTCCollection[i] !=="undefined"){
@@ -492,7 +492,7 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
     });
 	
     socketio.on('messages', function(data) {
-		console.log("Messages");
+		
 		var currency={};
 		currency.currencyPair=data[0];
 		currency.last=data[1];
