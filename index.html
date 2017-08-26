@@ -492,7 +492,7 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
     });
 	
     socketio.on('messages', function(data) {
-		
+		console.log("Messages");
 		var currency={};
 		currency.currencyPair=data[0];
 		currency.last=data[1];
