@@ -316,7 +316,8 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 	
 	$scope.init=function(){
 		$scope.getPTicker();
-		$scope.getBTicker()
+		$scope.getBTicker();
+		console.log($scope.btc_bcurrencies);
 	}
 	
 	$scope.pushToListCurrenices=function(currency,market){
