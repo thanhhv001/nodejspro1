@@ -354,7 +354,8 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 			value.name=key.replace($scope.startwithUSDT,"");
 		}
 		value.currencyPair=key;
-		value.percentChange=parseFloat(value.percentChange)*100;
+		value.last=parseFloat(value.last);
+		value.percentChange=parseFloat(value.percentChange*100);
 		value.baseVolume=parseFloat(value.baseVolume);
 		return value;
 	}
@@ -458,9 +459,9 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
     socketio.on('messages', function(data) {		
 		var currency={};
 		currency.currencyPair=data[0];
-		currency.last=data[1];
-		currency.baseVolume=data[5];
-		currency.percentChange=data[4];
+		currency.last=parseFloat(data[1]);
+		currency.baseVolume=parseFloat(data[5]);
+		currency.percentChange=parseFloat(data[4]*100);
 		currency.lowestAsk=data[2];
 		currency.highestBid=data[3];
 		
