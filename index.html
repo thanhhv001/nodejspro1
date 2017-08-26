@@ -456,7 +456,8 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 	    console.log("Connected");	
     });
 	
-    socketio.on('messages', function(data) {		
+    socketio.on('messages', function(data) {
+		
 		var currency={};
 		currency.currencyPair=data[0];
 		currency.last=parseFloat(data[1]);
@@ -471,11 +472,12 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 			currency.name=data[0].replace($scope.startwithUSDT,"");
 		}
 		$scope.pushToListCurrenices(currency,$scope.POLONIEX);			
-				        
+		console.log(currency);			        
     });
     
-    socketio.on('bittrexMessages',function(data){
-		console.log(data);
+    socketio.on('bittrexMessages',function(data){		
+		var bcurrency=$scope.buildBCurrencyObject(data);
+		$scope.pushToListCurrenices(bcurrency,$scope.BITTREX);
 	});	
 	
     socketio.on('disconnect', function() {
