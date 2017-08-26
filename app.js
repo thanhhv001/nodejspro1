@@ -88,6 +88,7 @@ connection.onopen = function (session) {
     }
 	
     function tickerEvent(args, kwargs) {
+	    console.log("tickerEvent");
 		console.log(args);
         io.emit('messages', args);
     }
@@ -110,7 +111,7 @@ bittrex.websockets.listen( function( data ) {
     data.A.forEach(function(data_for) {
       data_for.Deltas.forEach(function(marketsDelta) {
         io.emit('bittrexMessages', marketsDelta);
-         console.log('Ticker Update for '+ marketsDelta.MarketName, marketsDelta);
+        
       });
     });
   }
