@@ -440,7 +440,7 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 				}
 				break;
 			default:
-				tableName='p';
+				tableName='';
 				break;
 			}
 			            		
@@ -454,7 +454,11 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 	}
 	
 	$scope.highlight= function(id,index, className){
+		console.log(className);
 		var rows=document.getElementById(id).rows;
+		if(typeof row ==="undefined"){
+			return false;
+		}
 		row = rows[index];
 		row.classList.add(className);
 		$timeout(function(){
