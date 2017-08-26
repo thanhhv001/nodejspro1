@@ -87,9 +87,7 @@ connection.onopen = function (session) {
         io.emit('tradeCoin', args);
     }
 	
-    function tickerEvent(args, kwargs) {
-	    console.log("tickerEvent");
-		console.log(args);
+    function tickerEvent(args, kwargs) {	  
         io.emit('messages', args);
     }
 
