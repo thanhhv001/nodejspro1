@@ -323,6 +323,7 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 	$scope.pushToListCurrenices=function(currency,market){
 		switch(market){
 			case $scope.BITTREX:
+				console.log(currency);
 				if(currency.currencyPair.startsWith($scope.startwithBTC)){								
 					$scope.updateTicker(currency,$scope.btc_bcurrencies);
 					$scope.displayBBTCCollection=$scope.btc_bcurrencies;
@@ -340,7 +341,8 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 					$scope.displayPUSDTCollection=$scope.usdt_pcurrencies;			
 				}	
 				break;
-		
+			default:
+				break;
 		}	
 		
 	}
