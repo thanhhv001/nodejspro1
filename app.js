@@ -247,6 +247,3 @@ bittrex.websockets.listen( function( data ) {
     });
   }
 });
-
-
-
