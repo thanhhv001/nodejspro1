@@ -466,7 +466,7 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 	$scope.highlight= function(id,index, className){
 		
 		var rows=document.getElementById(id).rows;
-		if(typeof row ==="undefined"){
+		if(typeof rows ==="undefined"){
 			return false;
 		}
 		row = rows[index];
