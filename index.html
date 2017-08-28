@@ -580,11 +580,13 @@ myApp.directive('stResetSearch',['$timeout',function($timeout){
 									scope.displayBUSDTCollection=scope.usdt_bcurrencies;						
 									break;							
 							}
+							scope.testabc=12345;
 							console.log(attrs.stResetSearch);	
 							
 						});
-					},100);					
-					scope.testabc=12345;	
+					},10);
+						
+						
 				}
 														
 			})
