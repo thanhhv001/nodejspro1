@@ -126,6 +126,7 @@
 		<div class="page-header">
 			<h1>Currencies Price Ticker</h1>
 		</div>
+		<div>{{test}}</div>
 		<div class="row" ng-controller="MainCtrl" ng-init="init()">
 			<div class="col-xs-12 col-sm-6">				
 				<h2>POLONIEX</h2>
@@ -313,6 +314,7 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 	
 	$scope.BITTREX=1;
 	$scope.POLONIEX=2;
+	$scope.test=2;
 	
 	$scope.init=function(){
 		$scope.getPTicker();
@@ -554,7 +556,7 @@ myApp.factory('commonService',['$http',function($http){
 	}
 }]);
 
-myApp.directive('stResetSearch',function(){
+myApp.directive('stResetSearch',['$timeout',function($timeout){
 	return {
 		restrict:'EA',
 		link:function(scope,element,attrs){
@@ -563,7 +565,7 @@ myApp.directive('stResetSearch',function(){
 				if(value===""){
 					switch(attrs.stResetSearch){
 						case 1:
-							scope.displayPBTCCollection= [];
+							scope.displayPBTCCollection= scope.btc_pcurrencies;
 							break;
 						case 2:
 							scope.displayPUSDTCollection =scope.usdt_pcurrencies;
@@ -578,13 +580,13 @@ myApp.directive('stResetSearch',function(){
 					}
 					
 				}
-								
+				scope.test	=345;			
 				
 				
 			})
 		}
 	};
-})
+}])
 
 	        
 </script>
