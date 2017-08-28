@@ -420,20 +420,20 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 			case $scope.BITTREX:				
 				if(c.currencyPair.startsWith($scope.startwithBTC)){
 					tableName='btable_btc';
-					$scope.updatePriceForDisplayCollection(data,$scope.displayBBTCCollection);
+					$scope.updatePriceForDisplayCollection(data,$scope.displayBBTCCollection,tableName);
 				}else{
 					tableName='btable_usdt';
-					$scope.updatePriceForDisplayCollection(data,$scope.displayBUSDTCollection);
+					$scope.updatePriceForDisplayCollection(data,$scope.displayBUSDTCollection,tableName);
 					
 				}
 				break;
 			case $scope.POLONIEX:
 				if(c.currencyPair.startsWith($scope.startwithBTC)){
 					tableName='ptable_btc';	
-					$scope.updatePriceForDisplayCollection(data,$scope.displayPBTCCollection);
+					$scope.updatePriceForDisplayCollection(data,$scope.displayPBTCCollection,tableName);
 				}else{
 					tableName='ptable_usdt';
-					$scope.updatePriceForDisplayCollection(data,$scope.displayPUSDTCollection);					
+					$scope.updatePriceForDisplayCollection(data,$scope.displayPUSDTCollection,tableName);					
 				}
 				break;
 			default:
@@ -441,19 +441,24 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 				break;
 			}
 			            		
-			if(parseFloat(c.last)>parseFloat(data.last)){					
+			/*if(parseFloat(c.last)>parseFloat(data.last)){					
 				$scope.highlight(tableName,i,$scope.priceChangeDown);
 			}else{
 				$scope.highlight(tableName,i,$scope.priceChangeUp);
-			}			
+			}*/			
           }
         });
 	}
 	
-	$scope.updatePriceForDisplayCollection=function(currency,listCurrencies){
+	$scope.updatePriceForDisplayCollection=function(currency,listCurrencies,tableName){
 		angular.forEach(listCurrencies, function(c, i) {
 			if(c.currencyPair===currency.currencyPair){
-				listCurrencies[i]=c;
+				listCurrencies[i]=currency;
+				if(parseFloat(c.last)>parseFloat(currency.last)){					
+					$scope.highlight(tableName,i,$scope.priceChangeDown);
+				}else{
+					$scope.highlight(tableName,i,$scope.priceChangeUp);
+				}
 			}
 		})
 	}
