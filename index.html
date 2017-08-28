@@ -153,7 +153,7 @@
 										</tr>
 										<tr>
 											<th colspan="6">
-												<input st-reset-search="" ng-model="pb_search" st-search="name"  class="form-control" type="search"/>
+												<input st-reset-search="1" ng-model="pb_search" st-search="name"  class="form-control" type="search"/>
 											</th>
 										</tr>
 									</thead>
@@ -183,7 +183,7 @@
 										</tr>
 										<tr>
 											<th colspan="6">
-												<input st-reset-search="" ng-model="pu_search" st-search="name"  class="form-control" type="search"/>
+												<input st-reset-search="2" ng-model="pu_search" st-search="name"  class="form-control" type="search"/>
 											</th>
 										</tr>
 									</thead>
@@ -231,7 +231,7 @@
 										</tr>
 										<tr>
 											<th colspan="6">
-												<input st-reset-search="" ng-model="bb_search" st-search="name"  class="form-control" type="search"/>
+												<input st-reset-search="3" ng-model="bb_search" st-search="name"  class="form-control" type="search"/>
 											</th>
 										</tr>
 									</thead>
@@ -261,7 +261,7 @@
 										</tr>
 										<tr>
 											<th colspan="6">
-												<input st-reset-search="" ng-model="bu_search"  st-search="name"  class="form-control" type="search"/>
+												<input st-reset-search="4" ng-model="bu_search"  st-search="name"  class="form-control" type="search"/>
 											</th>
 										</tr>
 									</thead>
@@ -558,10 +558,29 @@ myApp.directive('stResetSearch',function(){
 	return {
 		restrict:'EA',
 		link:function(scope,element,attrs){
-			
-			scope.$watch(attrs.ngModel, function(value){
-				console.log(attrs.ngMode.$viewValue);
-				console.log("Value Test:",value);
+			console.log(attrs.stResetSearch);
+			scope.$watch(attrs.ngModel, function(value){			
+				if(value===""){
+					switch(attrs.stResetSearch){
+						case 1:
+							scope.displayPBTCCollection= scope.btc_pcurrencies;
+							break;
+						case 2:
+							scope.displayPUSDTCollection =scope.usdt_pcurrencies;
+							break;
+						case 3:
+							scope.displayBBTCCollection=scope.btc_bcurrencies;
+							break;
+						case 4:
+							scope.displayBUSDTCollection=scope.usdt_bcurrencies;						
+							break;
+						
+					}
+					scope.$apply();
+				}
+								
+				
+				
 			})
 		}
 	};
