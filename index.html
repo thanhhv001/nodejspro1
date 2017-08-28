@@ -554,7 +554,7 @@ myApp.factory('commonService',['$http',function($http){
 	}
 }]);
 
-myApp.directive('st-reset-search',function(){
+myApp.directive('stResetSearch',function(){
 	return {
 		restrict:'EA',
 		link:function(scope,element,attrs){
@@ -564,7 +564,7 @@ myApp.directive('st-reset-search',function(){
 				console.log("Value Test:",value);
 			})
 		}
-	}
+	};
 })
 
 	        
