@@ -560,7 +560,7 @@ myApp.directive('stResetSearch',function(){
 		link:function(scope,element,attrs){
 			
 			scope.$watch(attrs.ngModel, function(value){
-				console.log(scope[attrs.ngMode]);
+				console.log(attrs.ngMode.$viewValue);
 				console.log("Value Test:",value);
 			})
 		}
