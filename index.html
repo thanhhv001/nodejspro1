@@ -153,7 +153,7 @@
 										</tr>
 										<tr>
 											<th colspan="6">
-												<input st-search="name"  class="form-control" type="search"/>
+												<input st-reset-search="" ng-model="pb_search" st-search="name"  class="form-control" type="search"/>
 											</th>
 										</tr>
 									</thead>
@@ -183,7 +183,7 @@
 										</tr>
 										<tr>
 											<th colspan="6">
-												<input st-search="name"  class="form-control" type="search"/>
+												<input st-reset-search="" ng-model="pu_search" st-search="name"  class="form-control" type="search"/>
 											</th>
 										</tr>
 									</thead>
@@ -231,7 +231,7 @@
 										</tr>
 										<tr>
 											<th colspan="6">
-												<input st-search="name"  class="form-control" type="search"/>
+												<input st-reset-search="" ng-model="bb_search" st-search="name"  class="form-control" type="search"/>
 											</th>
 										</tr>
 									</thead>
@@ -261,7 +261,7 @@
 										</tr>
 										<tr>
 											<th colspan="6">
-												<input st-search="name"  class="form-control" type="search"/>
+												<input st-reset-search="" ng-model="bu_search"  st-search="name"  class="form-control" type="search"/>
 											</th>
 										</tr>
 									</thead>
@@ -317,27 +317,23 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 	$scope.init=function(){
 		$scope.getPTicker();
 		$scope.getBTicker();
-		console.log($scope.btc_bcurrencies);
+		
 	}
 	
 	$scope.pushToListCurrenices=function(currency,market){
 		switch(market){
 			case $scope.BITTREX:				
 				if(currency.currencyPair.startsWith($scope.startwithBTC)){								
-					$scope.updateTicker(currency,$scope.btc_bcurrencies, $scope.BITTREX);
-					//$scope.displayBBTCCollection=$scope.btc_bcurrencies;
+					$scope.updateTicker(currency,$scope.btc_bcurrencies, $scope.BITTREX);					
 				}else if(currency.currencyPair.startsWith($scope.startwithUSDT)){						
-					$scope.updateTicker(currency,$scope.usdt_bcurrencies, $scope.BITTREX);	
-					//$scope.displayBUSDTCollection=$scope.usdt_bcurrencies;			
+					$scope.updateTicker(currency,$scope.usdt_bcurrencies, $scope.BITTREX);					
 				}	
 				break;
 			case $scope.POLONIEX:
 				if(currency.currencyPair.startsWith($scope.startwithBTC)){								
 					$scope.updateTicker(currency,$scope.btc_pcurrencies,$scope.POLONIEX);
-					//$scope.displayPBTCCollection=$scope.btc_pcurrencies;
 				}else if(currency.currencyPair.startsWith($scope.startwithUSDT)){						
-					$scope.updateTicker(currency,$scope.usdt_pcurrencies,$scope.POLONIEX);	
-					//$scope.displayPUSDTCollection=$scope.usdt_pcurrencies;			
+					$scope.updateTicker(currency,$scope.usdt_pcurrencies,$scope.POLONIEX);
 				}	
 				break;
 			default:
@@ -412,6 +408,7 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 		}
 		
 	}
+	
 	$scope.updatePrice=function(data,currencies,market){
 		//update price
 		angular.forEach(currencies, function(c, i) {
@@ -423,30 +420,20 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 			case $scope.BITTREX:				
 				if(c.currencyPair.startsWith($scope.startwithBTC)){
 					tableName='btable_btc';
-					if(typeof $scope.displayBBTCCollection[i] !=="undefined"){
-						$scope.displayBBTCCollection[i]=data;
-					}
+					$scope.updatePriceForDisplayCollection(data,$scope.displayBBTCCollection);
 				}else{
 					tableName='btable_usdt';
-					if(typeof $scope.displayBUSDTCollection[i] !=="undefined"){
-						$scope.displayBUSDTCollection[i]=data;	
-					}
+					$scope.updatePriceForDisplayCollection(data,$scope.displayBUSDTCollection);
+					
 				}
 				break;
 			case $scope.POLONIEX:
-				
 				if(c.currencyPair.startsWith($scope.startwithBTC)){
 					tableName='ptable_btc';	
-					if(typeof $scope.displayPBTCCollection[i] !=="undefined"){
-						$scope.displayPBTCCollection[i]=data;
-					}
-					
+					$scope.updatePriceForDisplayCollection(data,$scope.displayPBTCCollection);
 				}else{
 					tableName='ptable_usdt';
-					if(typeof $scope.displayPUSDTCollection[i] !=="undefined"){
-						$scope.displayPUSDTCollection[i]=data;	
-					}
-					
+					$scope.updatePriceForDisplayCollection(data,$scope.displayPUSDTCollection);					
 				}
 				break;
 			default:
@@ -461,6 +448,14 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 			}			
           }
         });
+	}
+	
+	$scope.updatePriceForDisplayCollection=function(currency,listCurrencies){
+		angular.forEach(listCurrencies, function(c, i) {
+			if(c.currencyPair===currency.currencyPair){
+				listCurrencies[i]=c;
+			}
+		})
 	}
 	
 	$scope.highlight= function(id,index, className){
@@ -552,7 +547,16 @@ myApp.factory('commonService',['$http',function($http){
 			});
 		}
 	}
-}])
+}]);
+
+myApp.directive('st-reset-search',function(){
+	return {
+		restrict:'A',
+		link:function(scope,element,attrs){
+			console.log(attrs.ngModel);
+		}
+	}
+})
 
 	        
 </script>
