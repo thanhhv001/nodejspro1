@@ -460,11 +460,11 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 	
 	$scope.highlight= function(id,index, className){
 		
-		var rows=document.getElementById(id).rows;
-		if(typeof rows ==="undefined"){
+		var rows=document.getElementById(id).rows;		
+		row = rows[index];
+		if(typeof row ==="undefined"){
 			return false;
 		}
-		row = rows[index];
 		row.classList.add(className);
 		$timeout(function(){
 			row.classList.remove(className);
