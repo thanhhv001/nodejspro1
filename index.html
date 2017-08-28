@@ -360,12 +360,12 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 		var c={};
 		c.currencyPair=currency.MarketName.replace("-","_");		
 		c.baseVolume=parseFloat(currency.Volume) ;
-		c.percentChange=(((parseFloat(currency.Last)-parseFloat(currency.PrevDay))/parseFloat(currency.PrevDay))*100);
+		c.percentChange=parseFloat((((currency.Last-currency.PrevDay)/currency.PrevDay)*100).toFixed(2));
 		c.lowestAsk=currency.Low;
 		c.highestBid=currency.High;
 		c.ask=currency.Ask;
 		c.bid=currency.Bid;
-		c.last=currency.Last;
+		c.last=currency.Last.toString();
 		c.name= c.currencyPair.startsWith($scope.startwithBTC)?  c.currencyPair.replace($scope.startwithBTC,"") : c.currencyPair.replace($scope.startwithUSDT,"");
 		return c;
 	}
@@ -556,9 +556,13 @@ myApp.factory('commonService',['$http',function($http){
 
 myApp.directive('st-reset-search',function(){
 	return {
-		restrict:'A',
+		restrict:'EA',
 		link:function(scope,element,attrs){
-			console.log(attrs.ngModel);
+			
+			scope.$watch(attrs.ngModel, function(value){
+				console.log(element);
+				console.log("Value Test:",value);
+			})
 		}
 	}
 })
