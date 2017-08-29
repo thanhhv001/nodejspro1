@@ -409,7 +409,7 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 		}
 		value.currencyPair=key;
 		value.last=value.last;
-		value.percentChange=parseFloat(value.percentChange)*100;
+		value.percentChange=parseFloat(value.percentChange*100).toFixed(2);
 		value.baseVolume=parseFloat(value.baseVolume);
 		return value;
 	}
@@ -423,7 +423,7 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 		c.highestBid=currency.High;
 		c.ask=currency.Ask;
 		c.bid=currency.Bid;
-		c.last=currency.Last.toFix(8);
+		c.last=currency.Last.toFixed(8);
 		c.name= c.currencyPair.startsWith($scope.startwithBTC)?  c.currencyPair.replace($scope.startwithBTC,"") : c.currencyPair.replace($scope.startwithUSDT,"");
 		return c;
 	}
@@ -551,7 +551,7 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 		currency.currencyPair=data[0];
 		currency.last=data[1];
 		currency.baseVolume=parseFloat(data[5]);
-		currency.percentChange=parseFloat(data[4])*100;
+		currency.percentChange=parseFloat(data[4]*100).toFixed(2);
 		currency.lowestAsk=data[2];
 		currency.highestBid=data[3];
 		
