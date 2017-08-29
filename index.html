@@ -350,7 +350,11 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 	$scope.init=function(){
 		$scope.getPTicker();
 		$scope.getBTicker();
-		$scope.getBTCIntersetList();
+		$timeout(function(){
+			$scope.getBTCIntersetList();
+			$scope.apply();
+		},50);
+		
 		
 	}
 	
