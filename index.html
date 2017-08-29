@@ -357,7 +357,7 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 	$scope.getBTCIntersetList=function(){
 		console.log("Polo",$scope.btc_pcurrencies);
 		console.log("BITTREX",$scope.btc_bcurrencies);
-		angular.forEach($scope.btc_pcurrencies, function(c) {
+		angular.forEach($scope.btc_pcurrencies, function(c,i) {
 			var found = $filter('filter')($scope.btc_bcurrencies, {currencyPair: c.currencyPair}, true);
 			console.log("Result:",found);
 			if(found.length){
@@ -424,8 +424,8 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 		c.percentChange=parseFloat((((currency.Last-currency.PrevDay)/currency.PrevDay)*100).toFixed(2));
 		c.lowestAsk=currency.Low;
 		c.highestBid=currency.High;
-		c.ask=currency.Ask;
-		c.bid=currency.Bid;
+		c.ask=currency.Ask.toFixed(8);
+		c.bid=currency.Bid.toFixed(8);
 		c.last=currency.Last.toFixed(8);
 		c.name= c.currencyPair.startsWith($scope.startwithBTC)?  c.currencyPair.replace($scope.startwithBTC,"") : c.currencyPair.replace($scope.startwithUSDT,"");
 		return c;
