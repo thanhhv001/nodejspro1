@@ -116,7 +116,10 @@
 											  #9fd8ef 51%,
 											  #2ab0ed 100%);
 }
+.compticker_cointainer{
 	
+	height: 600px;	
+}	
   </style>
 </head>
 
@@ -131,30 +134,33 @@
 			<div class="col-xs-12">
 				<h2>COMPARE PRICE POLONIEX & BITTREX </h2>
 				<hr>
-				<table id="pbtable_btc" st-safe-src="watchingList" st-table="displayWatchingList"   class="table table-striped">
-									<thead>
-										<tr>
-											<th st-sort="name">Coin</th>
-											<th>Polo Price</th>
-											<th>Bittrex Price</th>	
-											<th st-sort="change">Change</th>											
-										</tr>
-										<tr>
-											<th colspan="4">
-												<input st-reset-search="5" ng-model="pbb_search" st-search="name"  class="form-control" type="search"/>
-											</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr  ng-repeat="row in displayWatchingList" >
-											<td>{{row.name | uppercase}}</td>
-											<td>{{row.pPrice}}</td>
-											<td>{{row.bPrice}}</td>
-											<td >{{row.change}}</td>
-											
-										</tr>
-									</tbody>
-								</table>
+				<div class="scrollbar">
+				
+					<table id="pbtable_btc" st-safe-src="watchingList" st-table="displayWatchingList"   class="table table-striped">
+						<thead>
+							<tr>
+								<th st-sort="name">Coin</th>
+								<th>Polo Price</th>
+								<th>Bittrex Price</th>	
+								<th st-sort="change">Change</th>											
+							</tr>
+							<tr>
+								<th colspan="4">
+									<input st-reset-search="5" ng-model="pbb_search" st-search="name"  class="form-control" type="search"/>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr  ng-repeat="row in displayWatchingList" >
+								<td>{{row.name | uppercase}}</td>
+								<td>{{row.pPrice}}</td>
+								<td>{{row.bPrice}}</td>
+								<td >{{row.change}}</td>										
+							</tr>
+						</tbody>
+					</table>
+				
+				</div>
 			</div>
 			<div class="col-xs-12 col-sm-6">				
 				<h2>POLONIEX</h2>
