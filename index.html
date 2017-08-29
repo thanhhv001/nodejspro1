@@ -349,13 +349,7 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 	
 	$scope.init=function(){
 		$scope.getPTicker();
-		$scope.getBTicker();
-		$timeout(function(){
-			$scope.getBTCIntersetList();
-			
-		},100);
-		
-		
+		$scope.getBTicker();				
 	}
 	
 	$scope.getBTCIntersetList=function(){					
@@ -374,7 +368,8 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 		switch(market){
 			case $scope.BITTREX:				
 				if(currency.currencyPair.startsWith($scope.startwithBTC)){								
-					$scope.updateTicker(currency,$scope.btc_bcurrencies, $scope.BITTREX);					
+					$scope.updateTicker(currency,$scope.btc_bcurrencies, $scope.BITTREX);
+					$scope.getBTCIntersetList();					
 				}else if(currency.currencyPair.startsWith($scope.startwithUSDT)){						
 					$scope.updateTicker(currency,$scope.usdt_bcurrencies, $scope.BITTREX);					
 				}	
@@ -425,8 +420,8 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 		c.currencyPair=currency.MarketName.replace("-","_");		
 		c.baseVolume=parseFloat(currency.Volume) ;
 		c.percentChange=parseFloat((((currency.Last-currency.PrevDay)/currency.PrevDay)*100).toFixed(2));
-		c.lowestAsk=currency.Low;
-		c.highestBid=currency.High;
+		c.lowestAsk=currency.Low.toFixed(8);
+		c.highestBid=currency.High.toFixed(8);
 		c.ask=currency.Ask.toFixed(8);
 		c.bid=currency.Bid.toFixed(8);
 		c.last=currency.Last.toFixed(8);
