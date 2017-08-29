@@ -371,8 +371,8 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 		})		
 	}
 	
-	$scope.$watch($scope.loadMarketCap,function(value){
-		console.log(value);	
+	$scope.$watch($scope.loadMarketCap,function( newValue, oldValue){
+		console.log("old:",oldValue,"new:",newValue);	
 	})
 	
 	$scope.pushToListCurrenices=function(currency,market){
