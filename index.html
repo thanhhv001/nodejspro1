@@ -352,7 +352,7 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 		$scope.getBTicker();
 		$timeout(function(){
 			$scope.getBTCIntersetList();
-			$scope.apply();
+			$scope.$apply();
 		},50);
 		
 		
