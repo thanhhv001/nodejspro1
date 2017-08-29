@@ -351,6 +351,7 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 	
 	$scope.BITTREX=1;
 	$scope.POLONIEX=2;
+	$scope.loadMarketCap=false;
 	
 	
 	$scope.init=function(){
@@ -362,13 +363,17 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 		
 		angular.forEach($scope.btc_pcurrencies, function(c,i) {
 			var found = $filter('filter')($scope.btc_bcurrencies, {currencyPair: c.currencyPair}, true);
-			console.log("Result:",found);
+			
 			if(found.length){
 				var wObj= $scope.buildObjectForWatchingList(c.name,c.last,found[0].last,c.currencyPair);
 				$scope.watchingList.push(wObj);
 			}	
 		})		
 	}
+	
+	$scope.$watch($scope.loadMarketCap,function(value){
+		console.log(value);	
+	})
 	
 	$scope.pushToListCurrenices=function(currency,market){
 		switch(market){
@@ -457,7 +462,8 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 				var bcurrency=$scope.buildBCurrencyObject(c);
 				$scope.pushToListCurrenices(bcurrency,$scope.BITTREX);
 			})
-			$scope.getBTCIntersetList();			
+			$scope.loadMarketCap=true;
+			//$scope.getBTCIntersetList();			
 		},function(error){
 			console.log(error);
 		})
