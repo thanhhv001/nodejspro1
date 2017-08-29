@@ -369,7 +369,7 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 			case $scope.BITTREX:				
 				if(currency.currencyPair.startsWith($scope.startwithBTC)){								
 					$scope.updateTicker(currency,$scope.btc_bcurrencies, $scope.BITTREX);
-					$scope.getBTCIntersetList();					
+									
 				}else if(currency.currencyPair.startsWith($scope.startwithUSDT)){						
 					$scope.updateTicker(currency,$scope.usdt_bcurrencies, $scope.BITTREX);					
 				}	
@@ -451,7 +451,7 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 				var bcurrency=$scope.buildBCurrencyObject(c);
 				$scope.pushToListCurrenices(bcurrency,$scope.BITTREX);
 			})
-						
+			$scope.getBTCIntersetList();			
 		},function(error){
 			console.log(error);
 		})
