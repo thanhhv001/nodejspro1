@@ -359,11 +359,13 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 	}
 	
 	$scope.getBTCIntersetList=function(){
-		console.log("Polo",$scope.btc_pcurrencies);
+		console.log("Polo",$scope.btc_pcurrencies.length);
 		console.log("BITTREX",$scope.btc_bcurrencies);
-		$scope.btc_pcurrencies.forEach(function(entry){
-			console.log("Result:",entry);
-		});
+		
+		for(int i=0;i<$scope.btc_pcurrencies.length;i++){
+			console.log("Result:",$scope.btc_pcurrencies[i]);
+		}
+		
 		angular.forEach($scope.btc_pcurrencies, function(c,i) {
 			var found = $filter('filter')($scope.btc_bcurrencies, {currencyPair: c.currencyPair}, true);
 			console.log("Result:",found);
