@@ -351,7 +351,7 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 	
 	$scope.BITTREX=1;
 	$scope.POLONIEX=2;
-	$scope.loadMarketCap=false;
+	$scope.loadMarketCap=1;
 	
 	
 	$scope.init=function(){
@@ -462,7 +462,7 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 				var bcurrency=$scope.buildBCurrencyObject(c);
 				$scope.pushToListCurrenices(bcurrency,$scope.BITTREX);
 			})
-			$scope.loadMarketCap=true;
+			$scope.loadMarketCap=2;
 			//$scope.getBTCIntersetList();			
 		},function(error){
 			console.log(error);
