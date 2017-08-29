@@ -564,29 +564,25 @@ myApp.directive('stResetSearch',['$timeout',function($timeout){
 			console.log(attrs.stResetSearch);
 			scope.$watch(attrs.ngModel, function(value){			
 				if(value===""){
-					$timeout(function(){											
-						scope.$apply(function(){
-							switch(attrs.stResetSearch){
-								case 1:
-									scope.displayPBTCCollection= scope.btc_pcurrencies;
-									break;
-								case 2:
-									scope.displayPUSDTCollection =scope.usdt_pcurrencies;
-									break;
-								case 3:
-									scope.displayBBTCCollection=scope.btc_bcurrencies;
-									break;
-								case 4:
-									scope.displayBUSDTCollection=scope.usdt_bcurrencies;						
-									break;							
-							}
-							scope.testabc=12345;
-							console.log(attrs.stResetSearch);	
-							
-						});
-					},10);
-						
-						
+					switch(attrs.stResetSearch){
+						case 1:
+							scope.displayPBTCCollection= scope.btc_pcurrencies;
+							break;
+						case 2:
+							scope.displayPUSDTCollection =scope.usdt_pcurrencies;
+							break;
+						case 3:
+							scope.displayBBTCCollection=scope.btc_bcurrencies;
+							break;
+						case 4:
+							scope.displayBUSDTCollection=scope.usdt_bcurrencies;						
+							break;							
+					}
+					scope.testabc=12345;
+					console.log(attrs.stResetSearch);
+					$timeout(function(){						
+						scope.$apply();
+					},10);												
 				}
 														
 			})
