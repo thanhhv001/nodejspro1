@@ -355,8 +355,11 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 	}
 	
 	$scope.getBTCIntersetList=function(){
+		console.log("Polo",$scope.btc_pcurrencies);
+		console.log("BITTREX",$scope.btc_bcurrencies);
 		angular.forEach($scope.btc_pcurrencies, function(c) {
 			var found = $filter('filter')($scope.btc_bcurrencies, {currencyPair: c.currencyPair}, true);
+			console.log("Result:",found);
 			if(found.length){
 				var wObj= $scope.buildObjectForWatchingList(c.name,c.last,found[0].last,c.currencyPair);
 				$scope.watchingList.push(wObj);
