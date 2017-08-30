@@ -139,6 +139,7 @@
 					<table id="pbtable_btc" st-safe-src="watchingList" st-table="displayWatchingList"   class="table table-striped">
 						<thead>
 							<tr>
+								
 								<th st-sort="name">Coin</th>
 								<th>Polo Price</th>
 								<th>Bittrex Price</th>	
@@ -351,16 +352,18 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 	
 	$scope.BITTREX=1;
 	$scope.POLONIEX=2;
-	$scope.loadMarketCap=1;
+	
 	
 	
 	$scope.init=function(){
 		$scope.getPTicker();
 		$scope.getBTicker();
-		 $timeout( function(){
+		$timeout( function(){
             $scope.getBTCIntersetList();
         }, 5500 );	
 	}
+	
+	
 	
 	$scope.getBTCIntersetList=function(){					
 		
@@ -374,9 +377,42 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 		})		
 	}
 	
-	$scope.$watch($scope.loadMarketCap,function( newValue, oldValue){
-		console.log("old:",oldValue,"new:",newValue);	
-	})
+	$scope.updateBTCCompareList=function(currency,market){
+		angular.forEach($scope.watchingList, function(c,i) {
+			if(c.currencyPair==currency.currencyPair){
+				var objBuilder={};
+				switch(market){
+					case $scope.BITTREX:
+						$scope.watchingList[i].bPrice=$scope.buildObjectForWatchingList(c.name,c.pPrice,currency.last,c.currencyPair);						
+						break;
+					case $scope.POLONIEX:
+						$scope.watchingList[i].bPrice=$scope.buildObjectForWatchingList(c.name,currency.last,c.bPrice,c.currencyPair);
+						
+						break;
+				}
+				
+				$scope.updatePriceDisplayWatchingList($scope.watchingList[i]);
+				
+					
+			}
+			
+		})
+				
+	}
+	
+	$scope.updatePriceDisplayWatchingList=function(currency){
+		angular.forEach($scope.displayWatchingList, function(c,j) {
+			if(c.currencyPair == currency.currencyPair){						
+				if(c.change>currency.change){
+					$scope.highlight('pbtable_btc',i,$scope.priceChangeDown);			
+				}else{
+					$scope.highlight('pbtable_btc',i,$scope.priceChangeUp);	
+				}
+				$scope.displayWatchingList[i]=currency;
+			}
+		})
+		
+	}
 	
 	$scope.pushToListCurrenices=function(currency,market){
 		switch(market){
@@ -466,7 +502,7 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 				$scope.pushToListCurrenices(bcurrency,$scope.BITTREX);
 			})
 			
-					
+				
 		},function(error){
 			console.log(error);
 		})
@@ -567,7 +603,7 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 		currency.currencyPair=data[0];
 		currency.last=data[1];
 		currency.baseVolume=parseFloat(data[5]);
-		currency.percentChange=parseFloat(data[4]*100).toFixed(2);
+		currency.percentChange=parseFloat((data[4]*100).toFixed(2));
 		currency.lowestAsk=data[2];
 		currency.highestBid=data[3];
 		
@@ -576,13 +612,15 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 		}else{
 			currency.name=data[0].replace($scope.startwithUSDT,"");
 		}
-		$scope.pushToListCurrenices(currency,$scope.POLONIEX);			
+		$scope.pushToListCurrenices(currency,$scope.POLONIEX);
+		$scope.updateBTCCompareList(currency,$scope.POLONIEX);
 			        
     });
     
     socketio.on('bittrexMessages',function(data){		
 		var bcurrency=$scope.buildBCurrencyObject(data);
 		$scope.pushToListCurrenices(bcurrency,$scope.BITTREX);
+		$scope.updateBTCCompareList(bcurrency,$scope.BITTREX);
 	});	
 	
     socketio.on('disconnect', function() {
