@@ -400,7 +400,7 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 	}
 	
 	$scope.updatePriceDisplayWatchingList=function(currency){
-		angular.forEach($scope.displayWatchingList, function(c,j) {
+		angular.forEach($scope.displayWatchingList, function(c,i) {
 			if(c.currencyPair == currency.currencyPair){						
 				if(c.change>currency.change){
 					$scope.highlight('pbtable_btc',i,$scope.priceChangeDown);			
