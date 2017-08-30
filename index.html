@@ -383,11 +383,10 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 				var objBuilder={};
 				switch(market){
 					case $scope.BITTREX:
-						$scope.watchingList[i].bPrice=$scope.buildObjectForWatchingList(c.name,c.pPrice,currency.last,c.currencyPair);						
+						$scope.watchingList[i]=$scope.buildObjectForWatchingList(c.name,c.pPrice,currency.last,c.currencyPair);					
 						break;
 					case $scope.POLONIEX:
-						$scope.watchingList[i].bPrice=$scope.buildObjectForWatchingList(c.name,currency.last,c.bPrice,c.currencyPair);
-						
+						$scope.watchingList[i]=$scope.buildObjectForWatchingList(c.name,currency.last,c.bPrice,c.currencyPair);
 						break;
 				}
 				
