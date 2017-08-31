@@ -616,7 +616,8 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 			        
     });
     
-    socketio.on('bittrexMessages',function(data){		
+    socketio.on('bittrexMessages',function(data){
+	    	console.log("bittrexMessages",data);
 		var bcurrency=$scope.buildBCurrencyObject(data);
 		$scope.pushToListCurrenices(bcurrency,$scope.BITTREX);
 		$scope.updateBTCCompareList(bcurrency,$scope.BITTREX);
