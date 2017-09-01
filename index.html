@@ -627,13 +627,13 @@ function MainCtrl($scope,socketio,coincapio,$filter,commonService,$timeout) {
             console.log("Disconnected");    
     });	
 	
-	coincapio.on('global',function(globalMsg){
+	/*coincapio.on('global',function(globalMsg){
 		console.log(globalMsg);
 	});
 	
 	coincapio.on('trades',function(tradeMsg){
 		console.log(tradeMsg);
-	})		
+	})*/		
 		
 }
 myApp.factory('socketio', function ($rootScope) {
