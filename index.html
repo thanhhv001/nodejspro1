@@ -330,7 +330,7 @@ var myApp = angular.module('myApp', ['smart-table']);
 
 
 myApp.controller("MainCtrl", MainCtrl);
-function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
+function MainCtrl($scope,socketio,coincapio,$filter,commonService,$timeout) {
 	$scope.btc_pcurrencies=[];	
 	$scope.usdt_pcurrencies=[];
 	$scope.btc_bcurrencies=[];
@@ -625,7 +625,15 @@ function MainCtrl($scope,socketio,$filter,commonService,$timeout) {
 	
     socketio.on('disconnect', function() {
             console.log("Disconnected");    
-    });		
+    });	
+	
+	coincapio.on('global',function(globalMsg){
+		console.log(globalMsg);
+	});
+	
+	coincapio.on('trades',function(tradeMsg){
+		console.log(tradeMsg);
+	})		
 		
 }
 myApp.factory('socketio', function ($rootScope) {
@@ -651,6 +659,31 @@ myApp.factory('socketio', function ($rootScope) {
         }
     };
 });
+
+myApp.factory('coincapio', function ($rootScope) {
+    var socket = io.connect('http://socket.coincap.io');
+    return {
+        on: function (eventName, callback) {
+            socket.on(eventName, function () {
+                var args = arguments;
+                $rootScope.$apply(function () {
+                    callback.apply(socket, args);
+                });
+            });
+        },
+        emit: function (eventName, data, callback) {
+            socket.emit(eventName, data, function () {
+                var args = arguments;
+                $rootScope.$apply(function () {
+                    if (callback) {
+                        callback.apply(socket, args);
+                    }
+                });
+            })
+        }
+    };
+});
+
 myApp.factory('commonService',['$http',function($http){
 	return{
 		ajaxRequest: function(url){
