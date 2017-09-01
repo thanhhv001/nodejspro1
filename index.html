@@ -661,7 +661,7 @@ myApp.factory('socketio', function ($rootScope) {
 });
 
 myApp.factory('coincapio', function ($rootScope) {
-    var socket = io.connect('http://socket.coincap.io');
+    var socket = io.connect('https://socket.coincap.io');
     return {
         on: function (eventName, callback) {
             socket.on(eventName, function () {
