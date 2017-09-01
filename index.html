@@ -628,7 +628,7 @@ function MainCtrl($scope,socketio,coincapio,$filter,commonService,$timeout) {
     });	
 	
 	coincapio.on('global',function(globalMsg){
-		console.log(globalMsg);
+		console.log("globalMsg:",globalMsg);
 	});
 	
 	coincapio.on('trades',function(tradeMsg){
